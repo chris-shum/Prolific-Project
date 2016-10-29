@@ -2,7 +2,6 @@ package app.com.prolific.android.prolific;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,12 +13,16 @@ import android.view.View;
 import app.com.prolific.android.prolific.presenters.PresentProlificLibrary;
 import app.com.prolific.android.prolific.presenters.RealmConvertor;
 import app.com.prolific.android.prolific.presenters.RecyclerViewAdapter;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity {
 
+    @BindView(R.id.bookDisplayRecyclerView)
     RecyclerView mBookDisplayRecyclerView;
     RecyclerViewAdapter mRecyclerViewAdapter;
     LinearLayoutManager mLinearLayoutManager;
+    @BindView(R.id.fab) FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,9 +30,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        ButterKnife.bind(this);
+
 
         mLinearLayoutManager = new LinearLayoutManager(this);
-        mBookDisplayRecyclerView = (RecyclerView) findViewById(R.id.bookDisplayRecyclerView);
         mBookDisplayRecyclerView.setLayoutManager(mLinearLayoutManager);
         mRecyclerViewAdapter = new RecyclerViewAdapter(RealmConvertor.RealmBookToBookArrayList(this));
         mBookDisplayRecyclerView.setAdapter(mRecyclerViewAdapter);
@@ -38,12 +42,11 @@ public class MainActivity extends AppCompatActivity {
         // TODO: 10/28/16 surround with internet check
         PresentProlificLibrary.getProlificLibrary(MainActivity.this, mRecyclerViewAdapter);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                // TODO: 10/28/16 intent to add screen
+
             }
         });
     }

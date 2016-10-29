@@ -1,5 +1,7 @@
 package app.com.prolific.android.prolific.presenters;
 
+import android.content.Intent;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,8 +10,11 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import app.com.prolific.android.prolific.DetailsActivity;
 import app.com.prolific.android.prolific.R;
 import app.com.prolific.android.prolific.models.Book;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * Created by ShowMe on 10/28/16.
@@ -30,9 +35,17 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, final int position) {
         holder.bookTitle.setText(bookArrayList.get(position).getTitle());
         holder.bookAuthor.setText(bookArrayList.get(position).getAuthor());
+        holder.bookCardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), DetailsActivity.class);
+                intent.putExtra("Position", position);
+                view.getContext().startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -44,14 +57,22 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         }
     }
 
+
     public class ViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.bookTitle)
         TextView bookTitle;
+        @BindView(R.id.bookAuthor)
         TextView bookAuthor;
+        @BindView(R.id.bookCardView)
+        CardView bookCardView;
+
 
         public ViewHolder(View itemView) {
             super(itemView);
-            bookTitle = (TextView) itemView.findViewById(R.id.bookTitle);
-            bookAuthor = (TextView) itemView.findViewById(R.id.bookAuthor);
+            ButterKnife.bind(this, itemView);
+
         }
+
     }
+
 }
