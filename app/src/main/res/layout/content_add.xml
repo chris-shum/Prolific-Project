@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/content_details"
+    android:id="@+id/content_add"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -11,38 +11,27 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="app.com.prolific.android.prolific.DetailsActivity"
-    tools:showIn="@layout/activity_details">
+    tools:context="app.com.prolific.android.prolific.AddActivity"
+    tools:showIn="@layout/activity_add">
 
-    <TextView
-        android:id="@+id/detailsBookTitle"
+    <EditText
+        android:id="@+id/bookTitleInput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <TextView
-        android:id="@+id/detailsBookAuthor"
+    <EditText
+        android:id="@+id/bookAuthorInput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <TextView
-        android:id="@+id/detailsBookPublisher"
+    <EditText
+        android:id="@+id/bookPublisherInput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <TextView
-        android:id="@+id/detailsBookCategories"
+    <EditText
+        android:id="@+id/bookCategoriesInput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
-
-    <TextView
-        android:id="@+id/detailsBookCheckoutBy"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <TextView
-        android:id="@+id/detailsBookCheckoutDate"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
 
 </LinearLayout>

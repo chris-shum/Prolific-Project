@@ -2,7 +2,6 @@ package app.com.prolific.android.prolific.presenters;
 
 import android.app.Activity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import app.com.prolific.android.prolific.models.Book;
@@ -14,9 +13,9 @@ import io.realm.RealmResults;
  * Created by ShowMe on 10/28/16.
  */
 
-public class RealmConvertor {
+public class PresentRealm {
 
-    public static void JSonToRealmBook(List<Book> bookList, Activity activity) {
+    public static void convertJSonToRealmBook(List<Book> bookList, Activity activity) {
         Realm realm = Realm.getInstance(activity);
         realm.executeTransaction(new Realm.Transaction() {
             @Override
@@ -25,7 +24,6 @@ public class RealmConvertor {
                 result.clear();
             }
         });
-
         for (int i = 0; i < bookList.size(); i++) {
             realm.beginTransaction();
             RealmBook realmBook = realm.createObject(RealmBook.class);
@@ -41,14 +39,15 @@ public class RealmConvertor {
         }
     }
 
-    public static ArrayList<Book> RealmBookToBookArrayList(Activity activity) {
+    public static RealmResults<RealmBook> getRealmLibrary(Activity activity) {
         Realm realm = Realm.getInstance(activity);
         final RealmResults<RealmBook> realmBooks = realm.where(RealmBook.class).findAll();
-        ArrayList<Book> bookArrayList = new ArrayList<>();
-        for (int i = 0; i < realmBooks.size(); i++) {
-            RealmBook realmBook = realmBooks.get(i);
-            bookArrayList.add(new Book(realmBook.getAuthor(), realmBook.getCategories(), realmBook.getId(), realmBook.getLastCheckedOut(), realmBook.getLastCheckedOutBy(), realmBook.getPublisher(), realmBook.getTitle(), realmBook.getUrl()));
-        }
-        return bookArrayList;
+        return realmBooks;
+    }
+
+    public static RealmResults<RealmBook> getRealmBookDetails(Activity activity, int ID) {
+        Realm realm = Realm.getInstance(activity);
+        final RealmResults<RealmBook> realmBookDetails = realm.where(RealmBook.class).equalTo("id", ID).findAll();
+        return realmBookDetails;
     }
 }

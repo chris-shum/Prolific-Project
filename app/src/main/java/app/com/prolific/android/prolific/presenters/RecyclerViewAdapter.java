@@ -8,22 +8,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-
 import app.com.prolific.android.prolific.DetailsActivity;
 import app.com.prolific.android.prolific.R;
-import app.com.prolific.android.prolific.models.Book;
+import app.com.prolific.android.prolific.models.RealmBook;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.realm.RealmResults;
 
 /**
  * Created by ShowMe on 10/28/16.
  */
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
-    ArrayList<Book> bookArrayList;
+    RealmResults<RealmBook> bookArrayList;
 
-    public RecyclerViewAdapter(ArrayList<Book> bookArrayList) {
+    public RecyclerViewAdapter(RealmResults<RealmBook> bookArrayList) {
         this.bookArrayList = bookArrayList;
     }
 
@@ -42,7 +41,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), DetailsActivity.class);
-                intent.putExtra("Position", position);
+                intent.putExtra("ID", bookArrayList.get(position).getId());
                 view.getContext().startActivity(intent);
             }
         });
@@ -66,13 +65,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         @BindView(R.id.bookCardView)
         CardView bookCardView;
 
-
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-
         }
-
     }
-
 }

@@ -5,4 +5,5 @@
     <string name="user_number">58124ddb99c50800092e1765</string>
     <string name="books_path">books</string>
     <string name="title_activity_details">DetailsActivity</string>
+    <string name="title_activity_add">AddActivity</string>
 </resources>

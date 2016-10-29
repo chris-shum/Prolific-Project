@@ -5,7 +5,9 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 /**
@@ -19,6 +21,13 @@ public interface RetrofitCallsToProlificLibrary {
     @GET("{userID}/{path}/")
     Call<List<Book>> getBooks(@Path("userID") String id, @Path("path") String path);
 
+    @GET("{userID}/{path}/{idNumber}/")
+    Call<Book> getBookDetails(@Path("userID") String id, @Path("path") String path,
+                              @Path("idNumber") int idNumber);
+
+    @PUT("{userID}/{path}/{idNumber}/")
+    Call<Book> checkoutBook(@Path("userID") String id, @Path("path") String path,
+                            @Path("idNumber") int idNumber, @Body Book book);
 
     class Factory {
         private static RetrofitCallsToProlificLibrary service;

@@ -1,5 +1,6 @@
 package app.com.prolific.android.prolific;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -9,9 +10,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
+
+import java.net.InetAddress;
 
 import app.com.prolific.android.prolific.presenters.PresentProlificLibrary;
-import app.com.prolific.android.prolific.presenters.RealmConvertor;
+import app.com.prolific.android.prolific.presenters.PresentRealm;
 import app.com.prolific.android.prolific.presenters.RecyclerViewAdapter;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -20,9 +24,10 @@ public class MainActivity extends AppCompatActivity {
 
     @BindView(R.id.bookDisplayRecyclerView)
     RecyclerView mBookDisplayRecyclerView;
-    RecyclerViewAdapter mRecyclerViewAdapter;
     LinearLayoutManager mLinearLayoutManager;
-    @BindView(R.id.fab) FloatingActionButton fab;
+    RecyclerViewAdapter mRecyclerViewAdapter;
+    @BindView(R.id.fab)
+    FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,23 +37,30 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         ButterKnife.bind(this);
 
-
         mLinearLayoutManager = new LinearLayoutManager(this);
         mBookDisplayRecyclerView.setLayoutManager(mLinearLayoutManager);
-        mRecyclerViewAdapter = new RecyclerViewAdapter(RealmConvertor.RealmBookToBookArrayList(this));
+        mRecyclerViewAdapter = new RecyclerViewAdapter(PresentRealm.getRealmLibrary(this));
         mBookDisplayRecyclerView.setAdapter(mRecyclerViewAdapter);
-
-
-        // TODO: 10/28/16 surround with internet check
-        PresentProlificLibrary.getProlificLibrary(MainActivity.this, mRecyclerViewAdapter);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO: 10/28/16 intent to add screen
-
+                goToAddActivity();
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (isInternetAvailable()) {
+            PresentProlificLibrary.getProlificLibrary(MainActivity.this);
+            // TODO: 10/29/16 after disable, enable all fabs
+        }else{
+            Toast.makeText(this, "Internet Unavailable", Toast.LENGTH_SHORT).show();
+            // TODO: 10/29/16 no internet dialogbox
+            // TODO: 10/29/16 sharedprefernce?  disable all fabs.
+        }
     }
 
     @Override
@@ -68,8 +80,24 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+//            goToAddActivity();
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public boolean isInternetAvailable() {
+        try {
+            InetAddress ipAddr = InetAddress.getByName("google.com");
+            return !ipAddr.equals("");
+
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public void goToAddActivity(){
+        Intent intent = new Intent(MainActivity.this, AddActivity.class);
+        startActivity(intent);
     }
 }
