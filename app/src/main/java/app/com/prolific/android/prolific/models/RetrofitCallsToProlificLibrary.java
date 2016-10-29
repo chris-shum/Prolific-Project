@@ -1,5 +1,7 @@
 package app.com.prolific.android.prolific.models;
 
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -12,10 +14,10 @@ import retrofit2.http.Path;
 
 public interface RetrofitCallsToProlificLibrary {
 
-    String BASE_URL = "https://http://prolific-interview.herokuapp.com/";
+    String BASE_URL = "http://prolific-interview.herokuapp.com/";
 
-    @GET("{userID}/{path1}")
-    Call<Book> getBooks(@Path("userID") String id, @Path("path1") String hmm);
+    @GET("{userID}/{path}/")
+    Call<List<Book>> getBooks(@Path("userID") String id, @Path("path") String path);
 
 
     class Factory {

@@ -11,11 +11,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import app.com.prolific.android.prolific.presenters.PresentProlificLibrary;
+import app.com.prolific.android.prolific.presenters.RealmConvertor;
 import app.com.prolific.android.prolific.presenters.RecyclerViewAdapter;
 
 public class MainActivity extends AppCompatActivity {
 
-    RecyclerView mEmojiDisplayRecyclerView;
+    RecyclerView mBookDisplayRecyclerView;
     RecyclerViewAdapter mRecyclerViewAdapter;
     LinearLayoutManager mLinearLayoutManager;
 
@@ -26,15 +28,15 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-//        retrofitcall
-//        PresentProlificLibrary.getProlificLibary(this);
+        mLinearLayoutManager = new LinearLayoutManager(this);
+        mBookDisplayRecyclerView = (RecyclerView) findViewById(R.id.bookDisplayRecyclerView);
+        mBookDisplayRecyclerView.setLayoutManager(mLinearLayoutManager);
+        mRecyclerViewAdapter = new RecyclerViewAdapter(RealmConvertor.RealmBookToBookArrayList(this));
+        mBookDisplayRecyclerView.setAdapter(mRecyclerViewAdapter);
 
-//        recyclerView
-//        mLinearLayoutManager = new LinearLayoutManager(this);
-//        mEmojiDisplayRecyclerView = (RecyclerView) findViewById(R.id.bookDisplayRecyclerView);
-//        mEmojiDisplayRecyclerView.setLayoutManager(mLinearLayoutManager);
-//        mRecyclerViewAdapter = new RecyclerViewAdapter(new ArrayList<Book>());
-//        mEmojiDisplayRecyclerView.setAdapter(mRecyclerViewAdapter);
+
+        // TODO: 10/28/16 surround with internet check
+        PresentProlificLibrary.getProlificLibrary(MainActivity.this, mRecyclerViewAdapter);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -65,7 +67,6 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 }

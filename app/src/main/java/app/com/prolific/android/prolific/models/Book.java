@@ -34,6 +34,17 @@ public class Book {
     @Expose
     private String url;
 
+    public Book(String author, String categories, int id, String lastCheckedOut, String lastCheckedOutBy, String publisher, String title, String url) {
+        this.author = author;
+        this.categories = categories;
+        this.id = id;
+        this.lastCheckedOut = lastCheckedOut;
+        this.lastCheckedOutBy = lastCheckedOutBy;
+        this.publisher = publisher;
+        this.title = title;
+        this.url = url;
+    }
+
     /**
      * 
      * @return
