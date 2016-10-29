@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">Prolific</string>
     <string name="action_settings">Settings</string>
+
+    <string name="user_number">58124ddb99c50800092e1765</string>
+    <string name="books_path">books</string>
 </resources>
