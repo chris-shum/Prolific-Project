@@ -1,5 +1,6 @@
 package app.com.prolific.android.prolific.presenters;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -43,6 +44,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 Intent intent = new Intent(view.getContext(), DetailsActivity.class);
                 intent.putExtra("ID", bookArrayList.get(position).getId());
                 view.getContext().startActivity(intent);
+            }
+        });
+        holder.bookCardView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                DialogCreator.createDeleteSelectedDialog((Activity) view.getContext(), bookArrayList.get(position).getId()).show();
+                return true;
             }
         });
     }

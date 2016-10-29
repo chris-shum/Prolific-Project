@@ -38,7 +38,7 @@ public class PresentProlificLibrary {
                 });
     }
 
-    public static void getProlificBookDetails(final Context context, int ID){
+    public static void getProlificBookDetails(final Context context, int ID) {
         Resources resources = context.getResources();
         RetrofitCallsToProlificLibrary.Factory.getInstance()
                 .getBookDetails(resources.getString(R.string.user_number), resources.getString(R.string.books_path), ID)
@@ -55,23 +55,76 @@ public class PresentProlificLibrary {
                 });
     }
 
-    public static void checkoutBook(final Context context, Book book, int ID){
+    public static void checkoutBook(final Context context, Book book, int ID) {
         Resources resources = context.getResources();
         RetrofitCallsToProlificLibrary.Factory.getInstance()
                 .checkoutBook(resources.getString(R.string.user_number), resources.getString(R.string.books_path), ID, book)
-        .enqueue(new Callback<Book>() {
-            @Override
-            public void onResponse(Call<Book> call, Response<Book> response) {
-                Toast.makeText(context, "Added", Toast.LENGTH_SHORT).show();
-            }
+                .enqueue(new Callback<Book>() {
+                    @Override
+                    public void onResponse(Call<Book> call, Response<Book> response) {
+                        Toast.makeText(context, "Added", Toast.LENGTH_SHORT).show();
+                    }
 
-            @Override
-            public void onFailure(Call<Book> call, Throwable t) {
-                Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show();
-                Log.d("test", t.toString());
+                    @Override
+                    public void onFailure(Call<Book> call, Throwable t) {
+                        Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show();
+                        Log.d("test", t.toString());
 
-            }
-        });
+                    }
+                });
+    }
+
+    public static void addBook(final Context context, Book book) {
+        Resources resources = context.getResources();
+        RetrofitCallsToProlificLibrary.Factory.getInstance()
+                .addBook(resources.getString(R.string.user_number), resources.getString(R.string.books_path), book)
+                .enqueue(new Callback<Book>() {
+                    @Override
+                    public void onResponse(Call<Book> call, Response<Book> response) {
+                        Toast.makeText(context, "Book added", Toast.LENGTH_SHORT).show();
+                        Log.d("test",
+                                response.code() + "");
+                    }
+
+                    @Override
+                    public void onFailure(Call<Book> call, Throwable t) {
+                        Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    public static void deleteAll(final Context context) {
+        Resources resources = context.getResources();
+        RetrofitCallsToProlificLibrary.Factory.getInstance().deleteAll(resources.getString(R.string.user_number), resources.getString(R.string.delete_path))
+                .enqueue(new Callback<Book>() {
+                    @Override
+                    public void onResponse(Call<Book> call, Response<Book> response) {
+
+                        Toast.makeText(context, response.code() + "", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onFailure(Call<Book> call, Throwable t) {
+
+                    }
+                });
+    }
+
+    public static void deleteSelectedBook(final Context context, int ID) {
+        Resources resources = context.getResources();
+        RetrofitCallsToProlificLibrary.Factory.getInstance().deleteSelectedBook(resources.getString(R.string.user_number), resources.getString(R.string.books_path), ID)
+                .enqueue(new Callback<Book>() {
+                    @Override
+                    public void onResponse(Call<Book> call, Response<Book> response) {
+
+                        Toast.makeText(context, response.code() + "", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onFailure(Call<Book> call, Throwable t) {
+
+                    }
+                });
     }
 }
 

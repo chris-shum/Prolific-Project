@@ -36,12 +36,73 @@ public class DialogCreator extends DialogFragment {
                             Book book = new Book();
                             book.setLastCheckedOutBy(edt.getText().toString());
                             PresentProlificLibrary.checkoutBook(activity, book, ID);
+                            PresentProlificLibrary.getProlificLibrary(activity);
                         }
                     }
                 }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 Toast.makeText(activity, "Book not checked out.", Toast.LENGTH_SHORT).show();
+            }
+        });
+        return builder.create();
+    }
+
+    public static Dialog createAddBookDialog(final Activity activity, final EditText... editTexts) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        builder.setMessage("Haaaay")
+                .setPositiveButton("Womp", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Book book = new Book();
+                        book.setTitle(editTexts[0].getText().toString());
+                        book.setAuthor(editTexts[1].getText().toString());
+                        book.setPublisher(editTexts[2].getText().toString());
+                        book.setCategories(editTexts[3].getText().toString());
+                        PresentProlificLibrary.addBook(activity, book);
+                        for (int j = 0; j < editTexts.length; j++) {
+                            editTexts[j].setText("");
+                        }
+                        PresentProlificLibrary.getProlificLibrary(activity);
+                    }
+                }).setNegativeButton("Bah", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+        return builder.create();
+    }
+
+    public static Dialog createDeleteAllDialog(final Activity activity) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        builder.setMessage("Delete ALL?")
+                .setPositiveButton("Womp", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        PresentProlificLibrary.deleteAll(activity);
+                        PresentProlificLibrary.getProlificLibrary(activity);
+                    }
+                }).setNegativeButton("Bah", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+            }
+        });
+        return builder.create();
+    }
+
+    public static Dialog createDeleteSelectedDialog(final Activity activity, final int ID) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        builder.setMessage("Delete Selected?")
+                .setPositiveButton("Womp", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        PresentProlificLibrary.deleteSelectedBook(activity, ID);
+                        PresentProlificLibrary.getProlificLibrary(activity);
+                    }
+                }).setNegativeButton("Bah", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
             }
         });
         return builder.create();

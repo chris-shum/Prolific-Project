@@ -6,7 +6,9 @@ import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
@@ -28,6 +30,16 @@ public interface RetrofitCallsToProlificLibrary {
     @PUT("{userID}/{path}/{idNumber}/")
     Call<Book> checkoutBook(@Path("userID") String id, @Path("path") String path,
                             @Path("idNumber") int idNumber, @Body Book book);
+
+    @POST("{userID}/{path}/")
+    Call<Book> addBook(@Path("userID") String id, @Path("path") String path, @Body Book book);
+
+    @DELETE("{userID}/{path}/")
+    Call<Book> deleteAll(@Path("userID") String id, @Path("path") String path);
+
+    @DELETE("{userID}/{path}/{idNumber}/")
+    Call<Book> deleteSelectedBook(@Path("userID") String id, @Path("path") String path,
+                            @Path("idNumber") int idNumber);
 
     class Factory {
         private static RetrofitCallsToProlificLibrary service;

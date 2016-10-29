@@ -1,6 +1,8 @@
 package app.com.prolific.android.prolific;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -12,8 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import java.net.InetAddress;
-
+import app.com.prolific.android.prolific.presenters.DialogCreator;
 import app.com.prolific.android.prolific.presenters.PresentProlificLibrary;
 import app.com.prolific.android.prolific.presenters.PresentRealm;
 import app.com.prolific.android.prolific.presenters.RecyclerViewAdapter;
@@ -53,10 +54,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (isInternetAvailable()) {
+        if (isNetworkConnected()) {
             PresentProlificLibrary.getProlificLibrary(MainActivity.this);
+            mRecyclerViewAdapter.notifyDataSetChanged();
             // TODO: 10/29/16 after disable, enable all fabs
-        }else{
+        } else {
             Toast.makeText(this, "Internet Unavailable", Toast.LENGTH_SHORT).show();
             // TODO: 10/29/16 no internet dialogbox
             // TODO: 10/29/16 sharedprefernce?  disable all fabs.
@@ -77,26 +79,23 @@ public class MainActivity extends AppCompatActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-//            goToAddActivity();
-            return true;
+        switch (id) {
+            case R.id.action_add:
+                goToAddActivity();
+                break;
+            case R.id.action_delete_all:
+                DialogCreator.createDeleteAllDialog(this).show();
+                break;
         }
-        return super.onOptionsItemSelected(item);
+        return true;
+}
+
+    private boolean isNetworkConnected() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        return cm.getActiveNetworkInfo() != null;
     }
 
-    public boolean isInternetAvailable() {
-        try {
-            InetAddress ipAddr = InetAddress.getByName("google.com");
-            return !ipAddr.equals("");
-
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
-    public void goToAddActivity(){
+    public void goToAddActivity() {
         Intent intent = new Intent(MainActivity.this, AddActivity.class);
         startActivity(intent);
     }
