@@ -42,7 +42,7 @@ public class AddActivity extends AppCompatActivity {
                 if (AddActivityCheck.checkEditTexts(mTitleInput, mAuthorInput, mPublisherInput, mCategoriesInput) == 4) {
                     DialogCreator.createAddBookDialog(AddActivity.this, mTitleInput, mAuthorInput, mPublisherInput, mCategoriesInput).show();
                 } else {
-                    Toast.makeText(AddActivity.this, "Please fill in all fields.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddActivity.this, getResources().getString(R.string.editText_error), Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -58,7 +58,7 @@ public class AddActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (AddActivityCheck.checkEditTexts(mTitleInput, mAuthorInput, mPublisherInput, mCategoriesInput) > 0) {
-            DialogCreator.createExitAddActivity(this).show();
+            DialogCreator.createExitAddActivityDialog(this).show();
         } else {
             switch (id) {
                 case R.id.action_done:

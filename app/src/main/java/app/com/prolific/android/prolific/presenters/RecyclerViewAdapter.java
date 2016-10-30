@@ -22,11 +22,9 @@ import io.realm.RealmResults;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
     RealmResults<RealmBook> bookArrayList;
-    boolean isNetworkConnected;
 
     public RecyclerViewAdapter(RealmResults<RealmBook> bookArrayList) {
         this.bookArrayList = bookArrayList;
-        this.isNetworkConnected = isNetworkConnected;
     }
 
     @Override
@@ -44,19 +42,18 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), DetailsActivity.class);
-                intent.putExtra("ID", bookArrayList.get(position).getId());
+                intent.putExtra(view.getContext().getResources().getString(R.string.intent_id), bookArrayList.get(position).getId());
                 view.getContext().startActivity(intent);
             }
         });
         holder.bookCardView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                // TODO: 10/30/16 items delete correctly, but. . . code needs to be cleaner?
-                    DialogCreator.createDeleteSelectedDialog((Activity) view.getContext(),
-                            bookArrayList.get(position).getId(),
-                            RecyclerViewAdapter.this,
-                            position,
-                            bookArrayList.size()).show();
+                DialogCreator.createDeleteSelectedDialog((Activity) view.getContext(),
+                        bookArrayList.get(position).getId(),
+                        RecyclerViewAdapter.this,
+                        position,
+                        bookArrayList.size()).show();
                 return true;
             }
         });

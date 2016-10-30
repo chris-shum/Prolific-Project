@@ -27,8 +27,8 @@ public class DialogCreator extends DialogFragment {
         final View dialogView = inflater.inflate(R.layout.checkout_dialog, null);
         builder.setView(dialogView);
         final EditText editText = (EditText) dialogView.findViewById(R.id.checkoutEditText);
-        builder.setMessage("Enter your name to checkout this book.").
-                setPositiveButton("Checkout", new DialogInterface.OnClickListener() {
+        builder.setMessage(getStringResources(activity, R.string.book_checkout))
+                .setPositiveButton(getStringResources(activity, R.string.checkout), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         if (editText.getText().toString().replaceAll("\\s+", "").equals("")) {
@@ -44,11 +44,12 @@ public class DialogCreator extends DialogFragment {
                             activity.finish();
                         }
                     }
-                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-            }
-        });
+                })
+                .setNegativeButton(getStringResources(activity, R.string.cancel), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                    }
+                });
         return builder.create();
     }
 
@@ -58,8 +59,8 @@ public class DialogCreator extends DialogFragment {
         sb.append("Publisher: " + editTexts[2].getText().toString() + "\n");
         sb.append("Categories: " + editTexts[3].getText().toString());
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-        builder.setTitle("Add book?").setMessage(sb)
-                .setPositiveButton("Add", new DialogInterface.OnClickListener() {
+        builder.setTitle(getStringResources(activity, R.string.add_book)).setMessage(sb)
+                .setPositiveButton(getStringResources(activity, R.string.add), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         Book book = new Book();
@@ -72,18 +73,19 @@ public class DialogCreator extends DialogFragment {
                             editTexts[j].setText("");
                         }
                     }
-                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-            }
-        });
+                })
+                .setNegativeButton(getStringResources(activity, R.string.cancel), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                    }
+                });
         return builder.create();
     }
 
     public static Dialog createDeleteAllDialog(final Activity activity, final RecyclerViewAdapter recyclerViewAdapter, final int size) {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-        builder.setMessage("Are you sure you want to delete all books?")
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+        builder.setMessage(getStringResources(activity, R.string.delete_all))
+                .setPositiveButton(getStringResources(activity, R.string.yes), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         if (PresentProlificLibrary.deleteAll(activity)) {
@@ -91,18 +93,19 @@ public class DialogCreator extends DialogFragment {
                             recyclerViewAdapter.notifyItemRangeRemoved(0, size);
                         }
                     }
-                }).setNegativeButton("No", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-            }
-        });
+                })
+                .setNegativeButton(getStringResources(activity, R.string.no), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                    }
+                });
         return builder.create();
     }
 
     public static Dialog createDeleteSelectedDialog(final Activity activity, final int ID, final RecyclerViewAdapter recyclerViewAdapter, final int position, final int size) {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-        builder.setMessage("Delete selected book?")
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+        builder.setMessage(getStringResources(activity, R.string.delete_selected))
+                .setPositiveButton(getStringResources(activity, R.string.yes), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         if (PresentProlificLibrary.deleteSelectedBook(activity, ID)) {
@@ -111,39 +114,46 @@ public class DialogCreator extends DialogFragment {
                             recyclerViewAdapter.notifyItemRangeChanged(position, size - 1);
                         }
                     }
-                }).setNegativeButton("No", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-            }
-        });
+                })
+                .setNegativeButton(getStringResources(activity, R.string.no), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                    }
+                });
         return builder.create();
     }
 
     public static Dialog createNoInternetDialog(final Activity activity) {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-        // TODO: 10/30/16 cleanup this text
-        builder.setTitle("No internet").setMessage("Internet connection not found.  Continue in offline mode?  Cannot add, delete, or checkout in offline mode.").setPositiveButton("Okay", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-            }
-        });
+        builder.setTitle(getStringResources(activity, R.string.no_internet))
+                .setMessage(getStringResources(activity, R.string.offline_mode_message))
+                .setPositiveButton(getStringResources(activity, R.string.okay), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                    }
+                });
         return builder.create();
     }
 
-    public static Dialog createExitAddActivity(final Activity activity) {
+    public static Dialog createExitAddActivityDialog(final Activity activity) {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-        // TODO: 10/30/16 cleanup this text
-        builder.setTitle("Exit?").setMessage("You seem to have started something, still exit?").setPositiveButton("Okay", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                activity.finish();
-            }
-        }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-            }
-        });
+        builder.setTitle(getStringResources(activity, R.string.exit)).setMessage(getStringResources(activity, R.string.exit_message))
+                .setPositiveButton(getStringResources(activity, R.string.yes), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        activity.finish();
+                    }
+                })
+                .setNegativeButton(getStringResources(activity, R.string.no), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                    }
+                });
         return builder.create();
+    }
+
+    public static String getStringResources(Activity activity, int stringPath) {
+        return activity.getResources().getString(stringPath);
     }
 
 }

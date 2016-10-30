@@ -1,13 +1,47 @@
 <resources>
     <string name="app_name">Prolific</string>
+    <string name="title_activity_details">DetailsActivity</string>
+    <string name="title_activity_add">AddActivity</string>
+
+    <!--menu Strings-->
     <string name="action_add">Add</string>
     <string name="action_share">Share</string>
     <string name="action_delete_all">Delete All</string>
     <string name="action_done">Done</string>
 
+    <!--retrofitCall Strings-->
     <string name="user_number">58124ddb99c50800092e1765</string>
     <string name="books_path">books</string>
     <string name="delete_path">clean</string>
-    <string name="title_activity_details">DetailsActivity</string>
-    <string name="title_activity_add">AddActivity</string>
+
+    <!--dialogcreator Strings-->
+    <string name="book_checkout">Enter your name to checkout this book.</string>
+    <string name="checkout">Checkout</string>
+    <string name="cancel">Cancel</string>
+    <string name="add_book">Add Book?</string>
+    <string name="add">Add</string>
+    <string name="delete_all">Are you sure you want to delete all books?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="delete_selected">Delete selected book?</string>
+    <string name="no_internet">No Internet</string>
+    <string name="offline_mode_message">Internet connection not found.  Running on offline mode.  Cannot add, delete, or checkout while in offline mode.</string>
+    <string name="okay">Okay</string>
+    <string name="exit">Exit?</string>
+    <string name="exit_message">You appear to have entered some text.  Do you still wish to exit?</string>
+
+    <!--presentProlificLibrary Strings-->
+    <string name="connection_failure">Connection failure, no changes made.</string>
+    <string name="confirm_checkout">Book checked out.</string>
+    <string name="confirm_book_added">Book added.</string>
+    <string name="confirm_delete_all">All books deleted.</string>
+    <string name="confirm_book_deleted">Book deleted.</string>
+    <string name="network_error">Network error, changes not made.</string>
+
+    <!--misc Strings-->
+    <string name="editText_error">Please fill in all fields.</string>
+    <string name="intent_id">ID</string>
+
+
+
 </resources>

@@ -44,10 +44,12 @@ public class DetailsActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        DetailsActivitySetup.setDetailsPage(this, getIntent().getIntExtra(getResources().getString(R.string.intent_id), 0), mTitle, mAuthor, mPublisher, mCategories, mCheckoutBy, mCheckoutDate);
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DialogCreator.createCheckoutDialog((Activity) view.getContext(), getIntent().getIntExtra("ID", 0)).show();
+                DialogCreator.createCheckoutDialog((Activity) view.getContext(), getIntent().getIntExtra(getResources().getString(R.string.intent_id), 0)).show();
             }
         });
     }
@@ -55,7 +57,6 @@ public class DetailsActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        DetailsActivitySetup.setDetailsPage(this, getIntent().getIntExtra("ID", 0), mTitle, mAuthor, mPublisher, mCategories, mCheckoutBy, mCheckoutDate);
         if (isNetworkConnected()) {
             fab.setEnabled(true);
         } else {
@@ -77,8 +78,10 @@ public class DetailsActivity extends AppCompatActivity {
                 case R.id.action_share:
                     Intent shareIntent = new Intent(Intent.ACTION_SEND);
                     shareIntent.setType("text/plain");
-                    String womp = mTitle.getText().toString()+"\n"+mAuthor.getText().toString();
-                    shareIntent.putExtra(Intent.EXTRA_TEXT, womp);
+                    StringBuilder sb = new StringBuilder("Checkout this book!\n");
+                    sb.append(mTitle.getText().toString()+"\n");
+                    sb.append("by "+mAuthor.getText().toString());
+                    shareIntent.putExtra(Intent.EXTRA_TEXT, sb.toString());
                     startActivity(Intent.createChooser(shareIntent, "Checkout this book!"));
                     break;
                 case android.R.id.home:

@@ -14,11 +14,6 @@
     tools:context="app.com.prolific.android.prolific.MainActivity"
     tools:showIn="@layout/activity_main">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Hello World!" />
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/bookDisplayRecyclerView"
         android:layout_width="match_parent"

@@ -3,7 +3,6 @@ package app.com.prolific.android.prolific.presenters;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
-import android.util.Log;
 import android.widget.Toast;
 
 import java.util.List;
@@ -23,7 +22,7 @@ public class PresentProlificLibrary {
     static boolean mSuccess;
 
     public static void getProlificLibrary(final Context context) {
-        Resources resources = context.getResources();
+        final Resources resources = context.getResources();
         RetrofitCallsToProlificLibrary.Factory.getInstance()
                 .getBooks(resources.getString(R.string.user_number),
                         resources.getString(R.string.books_path))
@@ -35,7 +34,7 @@ public class PresentProlificLibrary {
 
                     @Override
                     public void onFailure(Call<List<Book>> call, Throwable t) {
-                        Toast.makeText(context, "Connection failure.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, resources.getString(R.string.connection_failure), Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -58,7 +57,7 @@ public class PresentProlificLibrary {
     }
 
     public static void checkoutBook(final Context context, Book book, int ID) {
-        Resources resources = context.getResources();
+        final Resources resources = context.getResources();
         RetrofitCallsToProlificLibrary.Factory.getInstance()
                 .checkoutBook(resources.getString(R.string.user_number),
                         resources.getString(R.string.books_path),
@@ -68,7 +67,7 @@ public class PresentProlificLibrary {
                     @Override
                     public void onResponse(Call<Book> call, Response<Book> response) {
                         if (response.code() == 200) {
-                            Toast.makeText(context, "Book checked out.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, resources.getString(R.string.confirm_checkout), Toast.LENGTH_SHORT).show();
                             getProlificLibrary(context);
                         } else {
                             errorToast(context);
@@ -77,13 +76,13 @@ public class PresentProlificLibrary {
 
                     @Override
                     public void onFailure(Call<Book> call, Throwable t) {
-                        Toast.makeText(context, "Connection failure.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, resources.getString(R.string.connection_failure), Toast.LENGTH_SHORT).show();
                     }
                 });
     }
 
     public static void addBook(final Context context, Book book) {
-        Resources resources = context.getResources();
+        final Resources resources = context.getResources();
         RetrofitCallsToProlificLibrary.Factory.getInstance()
                 .addBook(resources.getString(R.string.user_number),
                         resources.getString(R.string.books_path),
@@ -92,7 +91,7 @@ public class PresentProlificLibrary {
                     @Override
                     public void onResponse(Call<Book> call, Response<Book> response) {
                         if (response.code() == 200) {
-                            Toast.makeText(context, "Book added", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, resources.getString(R.string.confirm_book_added), Toast.LENGTH_SHORT).show();
                             getProlificLibrary(context);
                         } else {
                             errorToast(context);
@@ -101,23 +100,21 @@ public class PresentProlificLibrary {
 
                     @Override
                     public void onFailure(Call<Book> call, Throwable t) {
-                        Toast.makeText(context, "Connection failure.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, resources.getString(R.string.connection_failure), Toast.LENGTH_SHORT).show();
                     }
                 });
     }
 
     public static boolean deleteAll(final Context context) {
-        Resources resources = context.getResources();
+        final Resources resources = context.getResources();
         RetrofitCallsToProlificLibrary.Factory.getInstance()
                 .deleteAll(resources.getString(R.string.user_number),
                         resources.getString(R.string.delete_path))
                 .enqueue(new Callback<Void>() {
                     @Override
                     public void onResponse(Call<Void> call, Response<Void> response) {
-                        Log.d("test", response.code() + "");
-
                         if (response.code() == 200) {
-                            Toast.makeText(context, "All books deleted.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, resources.getString(R.string.confirm_delete_all), Toast.LENGTH_SHORT).show();
                             getProlificLibrary(context);
                             mSuccess = true;
                         } else {
@@ -128,7 +125,7 @@ public class PresentProlificLibrary {
 
                     @Override
                     public void onFailure(Call<Void> call, Throwable t) {
-                        Toast.makeText(context, "Connection failure.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, resources.getString(R.string.connection_failure), Toast.LENGTH_SHORT).show();
                         mSuccess = false;
                     }
                 });
@@ -136,7 +133,7 @@ public class PresentProlificLibrary {
     }
 
     public static boolean deleteSelectedBook(final Context context, int ID) {
-        Resources resources = context.getResources();
+        final Resources resources = context.getResources();
         RetrofitCallsToProlificLibrary.Factory.getInstance()
                 .deleteSelectedBook(
                         resources.getString(R.string.user_number),
@@ -145,9 +142,8 @@ public class PresentProlificLibrary {
                 .enqueue(new Callback<Book>() {
                     @Override
                     public void onResponse(Call<Book> call, Response<Book> response) {
-                        Log.d("test", response.code() + "");
                         if (response.code() == 204) {
-                            Toast.makeText(context, "Book deleted.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, resources.getString(R.string.confirm_book_deleted), Toast.LENGTH_SHORT).show();
                             getProlificLibrary(context);
                             mSuccess = true;
                         } else {
@@ -158,7 +154,7 @@ public class PresentProlificLibrary {
 
                     @Override
                     public void onFailure(Call<Book> call, Throwable t) {
-                        Toast.makeText(context, "Connection failure.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, context.getResources().getString(R.string.connection_failure), Toast.LENGTH_SHORT).show();
                         mSuccess = false;
                     }
                 });
@@ -166,7 +162,7 @@ public class PresentProlificLibrary {
     }
 
     public static void errorToast(Context context) {
-        Toast.makeText(context, "Network error, changes not made.", Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, context.getResources().getString(R.string.network_error), Toast.LENGTH_SHORT).show();
     }
 }
 

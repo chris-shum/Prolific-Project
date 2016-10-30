@@ -97,9 +97,6 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(MainActivity.this, AddActivity.class);
         startActivity(intent);
     }
-
-    // TODO: 10/30/16 clean up code
-    // TODO: 10/30/16 move all strings to res
-    // TODO: 10/30/16 comment
-    // TODO: 10/30/16 ux
+    // TODO: 10/30/16 ui/ux
+    // TODO: 10/30/16 comment code
 }
