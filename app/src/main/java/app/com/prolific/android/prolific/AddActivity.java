@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -58,8 +57,6 @@ public class AddActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        Log.d("test", id + "");
-        Log.d("test", R.id.home + "");
         if (AddActivityCheck.checkEditTexts(mTitleInput, mAuthorInput, mPublisherInput, mCategoriesInput) > 0) {
             DialogCreator.createExitAddActivity(this).show();
         } else {
@@ -73,5 +70,11 @@ public class AddActivity extends AppCompatActivity {
             }
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
     }
 }

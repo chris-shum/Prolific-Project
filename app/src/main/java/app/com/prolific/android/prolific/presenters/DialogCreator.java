@@ -8,7 +8,9 @@ import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import app.com.prolific.android.prolific.R;
 import app.com.prolific.android.prolific.models.Book;
@@ -24,26 +26,27 @@ public class DialogCreator extends DialogFragment {
         LayoutInflater inflater = activity.getLayoutInflater();
         final View dialogView = inflater.inflate(R.layout.checkout_dialog, null);
         builder.setView(dialogView);
-        final EditText edt = (EditText) dialogView.findViewById(R.id.edit1);
+        final EditText editText = (EditText) dialogView.findViewById(R.id.checkoutEditText);
         builder.setMessage("Enter your name to checkout this book.").
                 setPositiveButton("Checkout", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        if (edt.getText().toString().replaceAll("\\s+", "").equals("")) {
+                        if (editText.getText().toString().replaceAll("\\s+", "").equals("")) {
                             createCheckoutDialog(activity, ID).show();
                         } else {
-                            Toast.makeText(activity, "CheckedOut", Toast.LENGTH_SHORT).show();
                             Book book = new Book();
-                            book.setLastCheckedOutBy(edt.getText().toString());
-                            //  TODO: 10/30/16 checkout time
-//                            book.setLastCheckedOut();
+                            book.setLastCheckedOutBy(editText.getText().toString());
+                            Calendar cal = Calendar.getInstance();
+                            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss zzz");
+                            String timeNow = sdf.format(cal.getTime());
+                            book.setLastCheckedOut(timeNow);
                             PresentProlificLibrary.checkoutBook(activity, book, ID);
+                            activity.finish();
                         }
                     }
                 }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                Toast.makeText(activity, "Book not checked out.", Toast.LENGTH_SHORT).show();
             }
         });
         return builder.create();
@@ -83,7 +86,6 @@ public class DialogCreator extends DialogFragment {
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        PresentProlificLibrary.deleteAll(activity);
                         if (PresentProlificLibrary.deleteAll(activity)) {
                             PresentRealm.deleteAllRealmBooks(activity);
                             recyclerViewAdapter.notifyItemRangeRemoved(0, size);
@@ -103,7 +105,6 @@ public class DialogCreator extends DialogFragment {
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        PresentProlificLibrary.deleteSelectedBook(activity, ID);
                         if (PresentProlificLibrary.deleteSelectedBook(activity, ID)) {
                             PresentRealm.deleteRealmBook(activity, ID);
                             recyclerViewAdapter.notifyItemRemoved(position);

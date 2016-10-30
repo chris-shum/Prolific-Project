@@ -2,6 +2,7 @@ package app.com.prolific.android.prolific;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -74,7 +75,11 @@ public class DetailsActivity extends AppCompatActivity {
         if (isNetworkConnected()) {
             switch (id) {
                 case R.id.action_share:
-                    // TODO: 10/30/16 share
+                    Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                    shareIntent.setType("text/plain");
+                    String womp = mTitle.getText().toString()+"\n"+mAuthor.getText().toString();
+                    shareIntent.putExtra(Intent.EXTRA_TEXT, womp);
+                    startActivity(Intent.createChooser(shareIntent, "Checkout this book!"));
                     break;
                 case android.R.id.home:
                     finish();
@@ -89,6 +94,9 @@ public class DetailsActivity extends AppCompatActivity {
         return cm.getActiveNetworkInfo() != null;
     }
 
-    // TODO: 10/30/16 needs to update when put?
-    // TODO: 10/30/16 take away back twice
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
 }

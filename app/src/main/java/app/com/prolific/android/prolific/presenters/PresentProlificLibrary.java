@@ -3,6 +3,7 @@ package app.com.prolific.android.prolific.presenters;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.util.List;
@@ -113,6 +114,8 @@ public class PresentProlificLibrary {
                 .enqueue(new Callback<Void>() {
                     @Override
                     public void onResponse(Call<Void> call, Response<Void> response) {
+                        Log.d("test", response.code() + "");
+
                         if (response.code() == 200) {
                             Toast.makeText(context, "All books deleted.", Toast.LENGTH_SHORT).show();
                             getProlificLibrary(context);
@@ -142,6 +145,7 @@ public class PresentProlificLibrary {
                 .enqueue(new Callback<Book>() {
                     @Override
                     public void onResponse(Call<Book> call, Response<Book> response) {
+                        Log.d("test", response.code() + "");
                         if (response.code() == 204) {
                             Toast.makeText(context, "Book deleted.", Toast.LENGTH_SHORT).show();
                             getProlificLibrary(context);
