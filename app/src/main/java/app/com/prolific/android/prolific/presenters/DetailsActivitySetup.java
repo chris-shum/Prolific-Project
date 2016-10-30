@@ -9,7 +9,7 @@ import app.com.prolific.android.prolific.models.RealmBook;
  * Created by ShowMe on 10/28/16.
  */
 
-public class SetDetailsPage {
+public class DetailsActivitySetup {
     public static void setDetailsPage(Activity activity, int ID, TextView... textViews) {
         RealmBook book = PresentRealm.getRealmBookDetails(activity, ID).get(0);
         textViews[0].setText(book.getTitle());

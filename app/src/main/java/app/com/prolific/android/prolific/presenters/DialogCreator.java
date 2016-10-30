@@ -35,7 +35,7 @@ public class DialogCreator extends DialogFragment {
                             Toast.makeText(activity, "CheckedOut", Toast.LENGTH_SHORT).show();
                             Book book = new Book();
                             book.setLastCheckedOutBy(edt.getText().toString());
-                            // TODO: 10/30/16 checkout time
+                            //  TODO: 10/30/16 checkout time
 //                            book.setLastCheckedOut();
                             PresentProlificLibrary.checkoutBook(activity, book, ID);
                         }
@@ -120,6 +120,7 @@ public class DialogCreator extends DialogFragment {
 
     public static Dialog createNoInternetDialog(final Activity activity) {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        // TODO: 10/30/16 cleanup this text
         builder.setTitle("No internet").setMessage("Internet connection not found.  Continue in offline mode?  Cannot add, delete, or checkout in offline mode.").setPositiveButton("Okay", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
@@ -127,4 +128,21 @@ public class DialogCreator extends DialogFragment {
         });
         return builder.create();
     }
+
+    public static Dialog createExitAddActivity(final Activity activity) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        // TODO: 10/30/16 cleanup this text
+        builder.setTitle("Exit?").setMessage("You seem to have started something, still exit?").setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                activity.finish();
+            }
+        }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+            }
+        });
+        return builder.create();
+    }
+
 }

@@ -2,14 +2,16 @@ package app.com.prolific.android.prolific;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import app.com.prolific.android.prolific.presenters.AddActivityCheck;
 import app.com.prolific.android.prolific.presenters.DialogCreator;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -38,13 +40,14 @@ public class AddActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO: 10/29/16 checks for edittextbox empty
-                DialogCreator.createAddBookDialog(AddActivity.this, mTitleInput, mAuthorInput, mPublisherInput, mCategoriesInput).show();
+                if (AddActivityCheck.checkEditTexts(mTitleInput, mAuthorInput, mPublisherInput, mCategoriesInput) == 4) {
+                    DialogCreator.createAddBookDialog(AddActivity.this, mTitleInput, mAuthorInput, mPublisherInput, mCategoriesInput).show();
+                } else {
+                    Toast.makeText(AddActivity.this, "Please fill in all fields.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
-
-    // TODO: 10/29/16 add up carrot and done check
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -55,14 +58,19 @@ public class AddActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        switch (id) {
-            case R.id.action_done:
-                onBackPressed();
-                break;
-            case R.id.home:
-                NavUtils.navigateUpFromSameTask(this);
-                onBackPressed();
-                return true;
+        Log.d("test", id + "");
+        Log.d("test", R.id.home + "");
+        if (AddActivityCheck.checkEditTexts(mTitleInput, mAuthorInput, mPublisherInput, mCategoriesInput) > 0) {
+            DialogCreator.createExitAddActivity(this).show();
+        } else {
+            switch (id) {
+                case R.id.action_done:
+                    finish();
+                    break;
+                case android.R.id.home:
+                    finish();
+                    break;
+            }
         }
         return super.onOptionsItemSelected(item);
     }

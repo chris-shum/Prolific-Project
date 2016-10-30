@@ -5,7 +5,6 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -13,8 +12,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import app.com.prolific.android.prolific.presenters.DetailsActivitySetup;
 import app.com.prolific.android.prolific.presenters.DialogCreator;
-import app.com.prolific.android.prolific.presenters.SetDetailsPage;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -55,7 +54,7 @@ public class DetailsActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        SetDetailsPage.setDetailsPage(this, getIntent().getIntExtra("ID", 0), mTitle, mAuthor, mPublisher, mCategories, mCheckoutBy, mCheckoutDate);
+        DetailsActivitySetup.setDetailsPage(this, getIntent().getIntExtra("ID", 0), mTitle, mAuthor, mPublisher, mCategories, mCheckoutBy, mCheckoutDate);
         if (isNetworkConnected()) {
             fab.setEnabled(true);
         } else {
@@ -77,10 +76,9 @@ public class DetailsActivity extends AppCompatActivity {
                 case R.id.action_share:
                     // TODO: 10/30/16 share
                     break;
-                case R.id.home:
-                    NavUtils.navigateUpFromSameTask(this);
-                    onBackPressed();
-                    return true;
+                case android.R.id.home:
+                    finish();
+                    break;
             }
         }
         return super.onOptionsItemSelected(item);
