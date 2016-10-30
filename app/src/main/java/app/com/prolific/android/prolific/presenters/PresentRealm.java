@@ -50,4 +50,28 @@ public class PresentRealm {
         final RealmResults<RealmBook> realmBookDetails = realm.where(RealmBook.class).equalTo("id", ID).findAll();
         return realmBookDetails;
     }
+
+    public static void deleteRealmBook(Activity activity, final int ID) {
+        Realm realm = Realm.getInstance(activity);
+
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                RealmResults<RealmBook> rows = realm.where(RealmBook.class).equalTo("id", ID).findAll();
+                rows.clear();
+            }
+        });
+    }
+
+    public static void deleteAllRealmBooks(Activity activity) {
+        Realm realm = Realm.getInstance(activity);
+
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                RealmResults<RealmBook> rows = realm.where(RealmBook.class).findAll();
+                rows.clear();
+            }
+        });
+    }
 }

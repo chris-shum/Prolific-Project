@@ -35,8 +35,9 @@ public class DialogCreator extends DialogFragment {
                             Toast.makeText(activity, "CheckedOut", Toast.LENGTH_SHORT).show();
                             Book book = new Book();
                             book.setLastCheckedOutBy(edt.getText().toString());
+                            // TODO: 10/30/16 checkout time
+//                            book.setLastCheckedOut();
                             PresentProlificLibrary.checkoutBook(activity, book, ID);
-                            PresentProlificLibrary.getProlificLibrary(activity);
                         }
                     }
                 }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -49,9 +50,13 @@ public class DialogCreator extends DialogFragment {
     }
 
     public static Dialog createAddBookDialog(final Activity activity, final EditText... editTexts) {
+        StringBuilder sb = new StringBuilder("Title: " + editTexts[0].getText().toString() + "\n");
+        sb.append("Author: " + editTexts[1].getText().toString() + "\n");
+        sb.append("Publisher: " + editTexts[2].getText().toString() + "\n");
+        sb.append("Categories: " + editTexts[3].getText().toString());
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-        builder.setMessage("Haaaay")
-                .setPositiveButton("Womp", new DialogInterface.OnClickListener() {
+        builder.setTitle("Add book?").setMessage(sb)
+                .setPositiveButton("Add", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         Book book = new Book();
@@ -63,27 +68,28 @@ public class DialogCreator extends DialogFragment {
                         for (int j = 0; j < editTexts.length; j++) {
                             editTexts[j].setText("");
                         }
-                        PresentProlificLibrary.getProlificLibrary(activity);
                     }
-                }).setNegativeButton("Bah", new DialogInterface.OnClickListener() {
+                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-
             }
         });
         return builder.create();
     }
 
-    public static Dialog createDeleteAllDialog(final Activity activity) {
+    public static Dialog createDeleteAllDialog(final Activity activity, final RecyclerViewAdapter recyclerViewAdapter, final int size) {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-        builder.setMessage("Delete ALL?")
-                .setPositiveButton("Womp", new DialogInterface.OnClickListener() {
+        builder.setMessage("Are you sure you want to delete all books?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         PresentProlificLibrary.deleteAll(activity);
-                        PresentProlificLibrary.getProlificLibrary(activity);
+                        if (PresentProlificLibrary.deleteAll(activity)) {
+                            PresentRealm.deleteAllRealmBooks(activity);
+                            recyclerViewAdapter.notifyItemRangeRemoved(0, size);
+                        }
                     }
-                }).setNegativeButton("Bah", new DialogInterface.OnClickListener() {
+                }).setNegativeButton("No", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
             }
@@ -91,16 +97,30 @@ public class DialogCreator extends DialogFragment {
         return builder.create();
     }
 
-    public static Dialog createDeleteSelectedDialog(final Activity activity, final int ID) {
+    public static Dialog createDeleteSelectedDialog(final Activity activity, final int ID, final RecyclerViewAdapter recyclerViewAdapter, final int position, final int size) {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-        builder.setMessage("Delete Selected?")
-                .setPositiveButton("Womp", new DialogInterface.OnClickListener() {
+        builder.setMessage("Delete selected book?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         PresentProlificLibrary.deleteSelectedBook(activity, ID);
-                        PresentProlificLibrary.getProlificLibrary(activity);
+                        if (PresentProlificLibrary.deleteSelectedBook(activity, ID)) {
+                            PresentRealm.deleteRealmBook(activity, ID);
+                            recyclerViewAdapter.notifyItemRemoved(position);
+                            recyclerViewAdapter.notifyItemRangeChanged(position, size - 1);
+                        }
                     }
-                }).setNegativeButton("Bah", new DialogInterface.OnClickListener() {
+                }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+            }
+        });
+        return builder.create();
+    }
+
+    public static Dialog createNoInternetDialog(final Activity activity) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        builder.setTitle("No internet").setMessage("Internet connection not found.  Continue in offline mode?  Cannot add, delete, or checkout in offline mode.").setPositiveButton("Okay", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
             }

@@ -21,25 +21,33 @@ public interface RetrofitCallsToProlificLibrary {
     String BASE_URL = "http://prolific-interview.herokuapp.com/";
 
     @GET("{userID}/{path}/")
-    Call<List<Book>> getBooks(@Path("userID") String id, @Path("path") String path);
+    Call<List<Book>> getBooks(@Path("userID") String id,
+                              @Path("path") String path);
 
     @GET("{userID}/{path}/{idNumber}/")
-    Call<Book> getBookDetails(@Path("userID") String id, @Path("path") String path,
+    Call<Book> getBookDetails(@Path("userID") String id,
+                              @Path("path") String path,
                               @Path("idNumber") int idNumber);
 
     @PUT("{userID}/{path}/{idNumber}/")
-    Call<Book> checkoutBook(@Path("userID") String id, @Path("path") String path,
-                            @Path("idNumber") int idNumber, @Body Book book);
+    Call<Book> checkoutBook(@Path("userID") String id,
+                            @Path("path") String path,
+                            @Path("idNumber") int idNumber,
+                            @Body Book book);
 
     @POST("{userID}/{path}/")
-    Call<Book> addBook(@Path("userID") String id, @Path("path") String path, @Body Book book);
+    Call<Book> addBook(@Path("userID") String id,
+                       @Path("path") String path,
+                       @Body Book book);
 
     @DELETE("{userID}/{path}/")
-    Call<Book> deleteAll(@Path("userID") String id, @Path("path") String path);
+    Call<Void> deleteAll(@Path("userID") String id,
+                         @Path("path") String path);
 
     @DELETE("{userID}/{path}/{idNumber}/")
-    Call<Book> deleteSelectedBook(@Path("userID") String id, @Path("path") String path,
-                            @Path("idNumber") int idNumber);
+    Call<Book> deleteSelectedBook(@Path("userID") String id,
+                                  @Path("path") String path,
+                                  @Path("idNumber") int idNumber);
 
     class Factory {
         private static RetrofitCallsToProlificLibrary service;

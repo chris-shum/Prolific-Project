@@ -3,6 +3,7 @@
     <string name="action_add">Add</string>
     <string name="action_share">Share</string>
     <string name="action_delete_all">Delete All</string>
+    <string name="action_done">Done</string>
 
     <string name="user_number">58124ddb99c50800092e1765</string>
     <string name="books_path">books</string>

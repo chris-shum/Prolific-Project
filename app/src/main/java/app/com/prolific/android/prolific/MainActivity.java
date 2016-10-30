@@ -12,7 +12,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import app.com.prolific.android.prolific.presenters.DialogCreator;
 import app.com.prolific.android.prolific.presenters.PresentProlificLibrary;
@@ -42,13 +41,16 @@ public class MainActivity extends AppCompatActivity {
         mBookDisplayRecyclerView.setLayoutManager(mLinearLayoutManager);
         mRecyclerViewAdapter = new RecyclerViewAdapter(PresentRealm.getRealmLibrary(this));
         mBookDisplayRecyclerView.setAdapter(mRecyclerViewAdapter);
-
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 goToAddActivity();
             }
         });
+
+        if (!isNetworkConnected()) {
+            DialogCreator.createNoInternetDialog(this).show();
+        }
     }
 
     @Override
@@ -57,40 +59,36 @@ public class MainActivity extends AppCompatActivity {
         if (isNetworkConnected()) {
             PresentProlificLibrary.getProlificLibrary(MainActivity.this);
             mRecyclerViewAdapter.notifyDataSetChanged();
-            // TODO: 10/29/16 after disable, enable all fabs
+            fab.setEnabled(true);
         } else {
-            Toast.makeText(this, "Internet Unavailable", Toast.LENGTH_SHORT).show();
-            // TODO: 10/29/16 no internet dialogbox
-            // TODO: 10/29/16 sharedprefernce?  disable all fabs.
+            DialogCreator.createNoInternetDialog(MainActivity.this);
+            fab.setEnabled(false);
         }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        // TODO: 10/28/16 add add and delete all options
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        switch (id) {
-            case R.id.action_add:
-                goToAddActivity();
-                break;
-            case R.id.action_delete_all:
-                DialogCreator.createDeleteAllDialog(this).show();
-                break;
+        if (isNetworkConnected()) {
+            switch (id) {
+                case R.id.action_add:
+                    goToAddActivity();
+                    break;
+                case R.id.action_delete_all:
+                    DialogCreator.createDeleteAllDialog(this, mRecyclerViewAdapter, PresentRealm.getRealmLibrary(this).size()).show();
+                    break;
+            }
         }
-        return true;
-}
+        return super.onOptionsItemSelected(item);
+    }
 
-    private boolean isNetworkConnected() {
+    public boolean isNetworkConnected() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         return cm.getActiveNetworkInfo() != null;
     }

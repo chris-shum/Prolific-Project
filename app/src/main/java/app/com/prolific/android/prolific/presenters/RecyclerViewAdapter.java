@@ -49,7 +49,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.bookCardView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                DialogCreator.createDeleteSelectedDialog((Activity) view.getContext(), bookArrayList.get(position).getId()).show();
+                // TODO: 10/30/16 items delete correctly, but. . . code needs to be cleaner?
+                // TODO: 10/30/16 wrap in if(isconnected) somehow
+                DialogCreator.createDeleteSelectedDialog((Activity) view.getContext(), bookArrayList.get(position).getId(), RecyclerViewAdapter.this, position, bookArrayList.size()).show();
                 return true;
             }
         });

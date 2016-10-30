@@ -1,8 +1,11 @@
 package app.com.prolific.android.prolific;
 
 import android.app.Activity;
+import android.content.Context;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -29,7 +32,8 @@ public class DetailsActivity extends AppCompatActivity {
     TextView mCheckoutBy;
     @BindView(R.id.detailsBookCheckoutDate)
     TextView mCheckoutDate;
-    @BindView(R.id.fab) FloatingActionButton fab;
+    @BindView(R.id.fab)
+    FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,8 +42,7 @@ public class DetailsActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ButterKnife.bind(this);
-
-        SetDetailsPage.setDetailsPage(this, getIntent().getIntExtra("ID", 0), mTitle, mAuthor, mPublisher, mCategories, mCheckoutBy, mCheckoutDate);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,28 +52,45 @@ public class DetailsActivity extends AppCompatActivity {
         });
     }
 
-    // TODO: 10/29/16 add up carrot 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        SetDetailsPage.setDetailsPage(this, getIntent().getIntExtra("ID", 0), mTitle, mAuthor, mPublisher, mCategories, mCheckoutBy, mCheckoutDate);
+        if (isNetworkConnected()) {
+            fab.setEnabled(true);
+        } else {
+            fab.setEnabled(false);
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_detail, menu);
-        // TODO: 10/29/16 add sharing
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_share) {
-            return true;
+        if (isNetworkConnected()) {
+            switch (id) {
+                case R.id.action_share:
+                    // TODO: 10/30/16 share
+                    break;
+                case R.id.home:
+                    NavUtils.navigateUpFromSameTask(this);
+                    onBackPressed();
+                    return true;
+            }
         }
         return super.onOptionsItemSelected(item);
     }
 
+    private boolean isNetworkConnected() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        return cm.getActiveNetworkInfo() != null;
+    }
+
+    // TODO: 10/30/16 needs to update when put?
+    // TODO: 10/30/16 take away back twice
 }

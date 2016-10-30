@@ -4,13 +4,8 @@
     tools:context="app.com.prolific.android.prolific.MainActivity">
 
     <item
-        android:id="@+id/action_add"
-        android:title="@string/action_add"
-        app:showAsAction="never" />
-
-    <item
-        android:id="@+id/action_delete_all"
-        android:title="@string/action_delete_all"
-        app:showAsAction="never" />
+        android:id="@+id/action_done"
+        android:title="@string/action_done"
+        app:showAsAction="always" />
 
 </menu>
