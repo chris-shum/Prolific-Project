@@ -21,13 +21,13 @@ public interface RetrofitCallsToProlificLibrary {
     String BASE_URL = "http://prolific-interview.herokuapp.com/";
 
     @GET("{userID}/{path}/")
-    Call<List<Book>> getBooks(@Path("userID") String id,
-                              @Path("path") String path);
+    Call<List<Book>> getLibrary(@Path("userID") String id,
+                                @Path("path") String path);
 
     @GET("{userID}/{path}/{idNumber}/")
-    Call<Book> getBookDetails(@Path("userID") String id,
-                              @Path("path") String path,
-                              @Path("idNumber") int idNumber);
+    Call<Book> getBook(@Path("userID") String id,
+                       @Path("path") String path,
+                       @Path("idNumber") int idNumber);
 
     @PUT("{userID}/{path}/{idNumber}/")
     Call<Book> checkoutBook(@Path("userID") String id,
@@ -45,9 +45,9 @@ public interface RetrofitCallsToProlificLibrary {
                          @Path("path") String path);
 
     @DELETE("{userID}/{path}/{idNumber}/")
-    Call<Book> deleteSelectedBook(@Path("userID") String id,
-                                  @Path("path") String path,
-                                  @Path("idNumber") int idNumber);
+    Call<Book> deleteBook(@Path("userID") String id,
+                          @Path("path") String path,
+                          @Path("idNumber") int idNumber);
 
     class Factory {
         private static RetrofitCallsToProlificLibrary service;

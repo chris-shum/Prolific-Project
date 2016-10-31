@@ -2,6 +2,7 @@ package app.com.prolific.android.prolific.presenters;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
 import android.support.v7.widget.CardView;
@@ -42,6 +43,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         holder.bookTitle.setText(bookArrayList.get(position).getTitle());
         holder.bookAuthor.setText(bookArrayList.get(position).getAuthor());
+//        click for details, using shared element transitions
         holder.bookCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -51,13 +53,16 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 Pair<View, String> p2 = Pair.create((View) holder.bookTitle, "title");
                 Pair<View, String> p3 = Pair.create((View) holder.bookAuthor, "author");
                 ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, p1, p2, p3);
-                view.getContext().startActivity(intent, options.toBundle());
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                    view.getContext().startActivity(intent, options.toBundle());
+                }
             }
         });
+//        long click to delete
         holder.bookCardView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                DialogCreator.createDeleteSelectedDialog((Activity) view.getContext(),
+                DialogCreator.createDeleteBookDialog((Activity) view.getContext(),
                         bookArrayList.get(position).getId(),
                         RecyclerViewAdapter.this,
                         position,

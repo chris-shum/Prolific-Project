@@ -4,12 +4,14 @@ import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -42,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
         mBookDisplayRecyclerView.setLayoutManager(mLinearLayoutManager);
         mRecyclerViewAdapter = new RecyclerViewAdapter(PresentRealm.getRealmLibrary(this), this);
         mBookDisplayRecyclerView.setAdapter(mRecyclerViewAdapter);
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -49,20 +52,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        if (!isNetworkConnected()) {
-            DialogCreator.createNoInternetDialog(this).show();
-        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         if (isNetworkConnected()) {
-            PresentProlificLibrary.getProlificLibrary(MainActivity.this);
+            PresentProlificLibrary.getProlificLibrary(this);
             mRecyclerViewAdapter.notifyDataSetChanged();
             fab.setEnabled(true);
         } else {
-            DialogCreator.createNoInternetDialog(MainActivity.this);
+            DialogCreator.createNoInternetDialog(this).show();
             fab.setEnabled(false);
         }
     }
@@ -82,7 +82,8 @@ public class MainActivity extends AppCompatActivity {
                     goToAddActivity();
                     break;
                 case R.id.action_delete_all:
-                    DialogCreator.createDeleteAllDialog(this, mRecyclerViewAdapter, PresentRealm.getRealmLibrary(this).size()).show();
+                    DialogCreator.createDeleteAllBooksDialog(this, mRecyclerViewAdapter,
+                            PresentRealm.getRealmLibrary(this).size()).show();
                     break;
             }
         }
@@ -96,8 +97,13 @@ public class MainActivity extends AppCompatActivity {
 
     public void goToAddActivity() {
         Intent intent = new Intent(MainActivity.this, AddActivity.class);
-        Bundle bundle = ActivityOptions.makeSceneTransitionAnimation(this, android.util.Pair.create((View) fab, "fab")).toBundle();
-        startActivity(intent, bundle);
+        Bundle bundle = null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            bundle = ActivityOptions.makeSceneTransitionAnimation(this, Pair.create((View) fab, getResources().getString(R.string.fab_transition))).toBundle();
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            startActivity(intent, bundle);
+        }
     }
     // TODO: 10/30/16 ui/ux
     // TODO: 10/30/16 text sizes

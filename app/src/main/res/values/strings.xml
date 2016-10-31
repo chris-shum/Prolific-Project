@@ -51,7 +51,8 @@
     <string name="cardview_transition">cardview</string>
     <string name="title_transition">title</string>
     <string name="author_transition">author</string>
-    <string name="checkedout">Checked out by:</string>
+    <string name="fab_transition">fab</string>
+    <string name="checkedout">\nChecked out by:</string>
 
 
 </resources>

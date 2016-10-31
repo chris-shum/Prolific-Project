@@ -19,5 +19,11 @@
     <!--misc-->
     <dimen name="dialog_padding">10dp</dimen>
 
+    <!--content_details-->
+    <dimen name="bottom_padding">32dp</dimen>
+    <dimen name="right_padding">64dp</dimen>
+
+
+
 
 </resources>

@@ -6,6 +6,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import app.com.prolific.android.prolific.models.Book;
 import app.com.prolific.android.prolific.models.RealmBook;
@@ -18,7 +19,7 @@ import io.realm.RealmResults;
 
 public class PresentRealm {
 
-    public static void convertJSonToRealmBook(List<Book> bookList, Activity activity) {
+    public static void convertProlificLibraryToRealmLibrary(List<Book> bookList, Activity activity) {
         Realm realm = Realm.getInstance(activity);
         realm.executeTransaction(new Realm.Transaction() {
             @Override
@@ -42,13 +43,31 @@ public class PresentRealm {
         }
     }
 
+    public static String convertTime(String time) {
+        String DATE_FORMAT_I = "yyyy-MM-dd HH:mm:ss";
+        String DATE_FORMAT_O = "MMM d, yyyy hh:mm aaa";
+        SimpleDateFormat formatInput = new SimpleDateFormat(DATE_FORMAT_I);
+        SimpleDateFormat formatOutput = new SimpleDateFormat(DATE_FORMAT_O);
+        formatOutput.setTimeZone(TimeZone.getTimeZone("GMT-08:00"));
+        Date date = null;
+        if (time == null) {
+            return "";
+        }
+        try {
+            date = formatInput.parse(time);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return formatOutput.format(date);
+    }
+
     public static RealmResults<RealmBook> getRealmLibrary(Activity activity) {
         Realm realm = Realm.getInstance(activity);
         final RealmResults<RealmBook> realmBooks = realm.where(RealmBook.class).findAll();
         return realmBooks;
     }
 
-    public static RealmResults<RealmBook> getRealmBookDetails(Activity activity, int ID) {
+    public static RealmResults<RealmBook> getRealmBook(Activity activity, int ID) {
         Realm realm = Realm.getInstance(activity);
         final RealmResults<RealmBook> realmBookDetails = realm.where(RealmBook.class).equalTo("id", ID).findAll();
         return realmBookDetails;
@@ -56,7 +75,6 @@ public class PresentRealm {
 
     public static void deleteRealmBook(Activity activity, final int ID) {
         Realm realm = Realm.getInstance(activity);
-
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
@@ -68,7 +86,6 @@ public class PresentRealm {
 
     public static void deleteAllRealmBooks(Activity activity) {
         Realm realm = Realm.getInstance(activity);
-
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
@@ -76,22 +93,5 @@ public class PresentRealm {
                 rows.clear();
             }
         });
-    }
-
-    public static String convertTime(String time) {
-        String DATE_FORMAT_I = "yyyy-MM-dd HH:mm:ss";
-        String DATE_FORMAT_O = "MMM d, yyyy hh:mm aaa";
-        SimpleDateFormat formatInput = new SimpleDateFormat(DATE_FORMAT_I);
-        SimpleDateFormat formatOutput = new SimpleDateFormat(DATE_FORMAT_O);
-        Date date = null;
-        if (time == null) {
-            return "";
-        }
-        try {
-            date = formatInput.parse(time);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return formatOutput.format(date);
     }
 }

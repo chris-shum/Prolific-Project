@@ -48,7 +48,6 @@ public class DetailsActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
         DetailsActivitySetup.setDetailsPage(this, getIntent().getIntExtra(getResources().getString(R.string.intent_id), 0), mTitle, mAuthor, mPublisher, mCategories, mCheckoutBy, mCheckoutDate);
 
         fab.setOnClickListener(new View.OnClickListener() {
@@ -58,7 +57,7 @@ public class DetailsActivity extends AppCompatActivity {
             }
         });
 
-        if (!mCheckoutBy.getText().toString().equals("")) {
+        if (!mCheckoutBy.getText().toString().replaceAll("\\s+", "").equals("")) {
             mCheckout.setVisibility(View.VISIBLE);
         }
     }
@@ -107,8 +106,8 @@ public class DetailsActivity extends AppCompatActivity {
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
         shareIntent.setType("text/plain");
         StringBuilder sb = new StringBuilder("Checkout this book:\n");
-        sb.append(mTitle.getText().toString() + "\n");
-        sb.append("by " + mAuthor.getText().toString());
+        sb.append(mTitle.getText().toString() + " by ");
+        sb.append(mAuthor.getText().toString());
         shareIntent.putExtra(Intent.EXTRA_TEXT, sb.toString());
         startActivity(Intent.createChooser(shareIntent, "Share this book!"));
         return shareIntent;

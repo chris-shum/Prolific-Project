@@ -9,10 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.TimeZone;
-
 import app.com.prolific.android.prolific.R;
 import app.com.prolific.android.prolific.models.Book;
 
@@ -22,6 +18,7 @@ import app.com.prolific.android.prolific.models.Book;
 
 
 public class DialogCreator extends DialogFragment {
+
     public static Dialog createCheckoutDialog(final Activity activity, final int ID) {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
         LayoutInflater inflater = activity.getLayoutInflater();
@@ -37,11 +34,11 @@ public class DialogCreator extends DialogFragment {
                         } else {
                             Book book = new Book();
                             book.setLastCheckedOutBy(editText.getText().toString());
-                            Calendar cal = Calendar.getInstance();
-                            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss zzz");
-                            sdf.setTimeZone(TimeZone.getTimeZone("EST"));
-                            String timeNow = sdf.format(cal.getTime());
-                            book.setLastCheckedOut(timeNow);
+//                            Calendar cal = Calendar.getInstance();
+//                            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss zzz");
+//                            sdf.setTimeZone(TimeZone.getTimeZone("EST"));
+//                            String timeNow = sdf.format(cal.getTime());
+//                            book.setLastCheckedOut(timeNow);
                             PresentProlificLibrary.checkoutBook(activity, book, ID);
                             activity.finish();
                         }
@@ -74,6 +71,7 @@ public class DialogCreator extends DialogFragment {
                         for (int j = 0; j < editTexts.length; j++) {
                             editTexts[j].setText("");
                         }
+                        editTexts[0].requestFocus();
                     }
                 })
                 .setNegativeButton(getStringResources(activity, R.string.cancel), new DialogInterface.OnClickListener() {
@@ -84,13 +82,13 @@ public class DialogCreator extends DialogFragment {
         return builder.create();
     }
 
-    public static Dialog createDeleteAllDialog(final Activity activity, final RecyclerViewAdapter recyclerViewAdapter, final int size) {
+    public static Dialog createDeleteAllBooksDialog(final Activity activity, final RecyclerViewAdapter recyclerViewAdapter, final int size) {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
         builder.setMessage(getStringResources(activity, R.string.delete_all))
                 .setPositiveButton(getStringResources(activity, R.string.yes), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        if (PresentProlificLibrary.deleteAll(activity)) {
+                        if (PresentProlificLibrary.deleteAllBooks(activity)) {
                             PresentRealm.deleteAllRealmBooks(activity);
                             recyclerViewAdapter.notifyItemRangeRemoved(0, size);
                         }
@@ -104,7 +102,7 @@ public class DialogCreator extends DialogFragment {
         return builder.create();
     }
 
-    public static Dialog createDeleteSelectedDialog(final Activity activity, final int ID, final RecyclerViewAdapter recyclerViewAdapter, final int position, final int size) {
+    public static Dialog createDeleteBookDialog(final Activity activity, final int ID, final RecyclerViewAdapter recyclerViewAdapter, final int position, final int size) {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
         builder.setMessage(getStringResources(activity, R.string.delete_selected))
                 .setPositiveButton(getStringResources(activity, R.string.yes), new DialogInterface.OnClickListener() {

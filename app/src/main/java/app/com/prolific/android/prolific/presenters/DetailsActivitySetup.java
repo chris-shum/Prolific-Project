@@ -11,7 +11,7 @@ import app.com.prolific.android.prolific.models.RealmBook;
 
 public class DetailsActivitySetup {
     public static void setDetailsPage(Activity activity, int ID, TextView... textViews) {
-        RealmBook book = PresentRealm.getRealmBookDetails(activity, ID).get(0);
+        RealmBook book = PresentRealm.getRealmBook(activity, ID).get(0);
         textViews[0].setText(book.getTitle());
         textViews[1].setText(book.getAuthor());
         textViews[2].setText("Publisher: "+book.getPublisher());
