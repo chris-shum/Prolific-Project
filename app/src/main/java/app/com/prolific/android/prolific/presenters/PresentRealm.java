@@ -2,6 +2,9 @@ package app.com.prolific.android.prolific.presenters;
 
 import android.app.Activity;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import app.com.prolific.android.prolific.models.Book;
@@ -30,7 +33,7 @@ public class PresentRealm {
             realmBook.setAuthor(bookList.get(i).getAuthor());
             realmBook.setCategories(bookList.get(i).getCategories());
             realmBook.setId(bookList.get(i).getId());
-            realmBook.setLastCheckedOut(bookList.get(i).getLastCheckedOut());
+            realmBook.setLastCheckedOut(convertTime(bookList.get(i).getLastCheckedOut()));
             realmBook.setLastCheckedOutBy(bookList.get(i).getLastCheckedOutBy());
             realmBook.setPublisher(bookList.get(i).getPublisher());
             realmBook.setTitle(bookList.get(i).getTitle());
@@ -73,5 +76,22 @@ public class PresentRealm {
                 rows.clear();
             }
         });
+    }
+
+    public static String convertTime(String time) {
+        String DATE_FORMAT_I = "yyyy-MM-dd HH:mm:ss";
+        String DATE_FORMAT_O = "MMM d, yyyy hh:mm aaa";
+        SimpleDateFormat formatInput = new SimpleDateFormat(DATE_FORMAT_I);
+        SimpleDateFormat formatOutput = new SimpleDateFormat(DATE_FORMAT_O);
+        Date date = null;
+        if (time == null) {
+            return "";
+        }
+        try {
+            date = formatInput.parse(time);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return formatOutput.format(date);
     }
 }

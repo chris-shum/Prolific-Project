@@ -19,7 +19,7 @@ import retrofit2.Response;
  */
 
 public class PresentProlificLibrary {
-    static boolean mSuccess;
+    static boolean mSuccess = true;
 
     public static void getProlificLibrary(final Context context) {
         final Resources resources = context.getResources();

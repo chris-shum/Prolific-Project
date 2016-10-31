@@ -62,19 +62,14 @@ public class AddActivity extends AppCompatActivity {
         } else {
             switch (id) {
                 case R.id.action_done:
-                    finish();
+                    onBackPressed();
                     break;
                 case android.R.id.home:
-                    finish();
+                    onBackPressed();
                     break;
             }
         }
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        finish();
-    }
 }

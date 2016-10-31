@@ -38,10 +38,20 @@
     <string name="confirm_book_deleted">Book deleted.</string>
     <string name="network_error">Network error, changes not made.</string>
 
+    <!--add_activity_xml-->
+    <string name="title_input">Title</string>
+    <string name="author_input">Author</string>
+    <string name="publisher_input">Publisher</string>
+    <string name="categories_input">Categories</string>
+
+
     <!--misc Strings-->
     <string name="editText_error">Please fill in all fields.</string>
     <string name="intent_id">ID</string>
-
+    <string name="cardview_transition">cardview</string>
+    <string name="title_transition">title</string>
+    <string name="author_transition">author</string>
+    <string name="checkedout">Checked out by:</string>
 
 
 </resources>

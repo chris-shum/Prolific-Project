@@ -1,48 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/content_details"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:layout_margin="@dimen/activity_horizontal_margin"
+    android:elevation="@dimen/cardview_default_elevation"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:transitionName="@string/cardview_transition"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="app.com.prolific.android.prolific.DetailsActivity"
     tools:showIn="@layout/activity_details">
 
-    <TextView
-        android:id="@+id/detailsBookTitle"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/detailsBookAuthor"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        <LinearLayout
+            android:id="@+id/content_details"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="32dp"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/detailsBookPublisher"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/detailsBookTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="@android:style/TextAppearance.Material.Large"
+                android:textSize="@dimen/detail_title_font_size"
+                android:transitionName="@string/title_transition"
+                tools:targetApi="lollipop" />
 
-    <TextView
-        android:id="@+id/detailsBookCategories"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/detailsBookAuthor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="@android:style/TextAppearance.Material.Medium"
+                android:textSize="@dimen/detail_author_font_size"
+                android:transitionName="@string/author_transition"
+                tools:targetApi="lollipop" />
 
-    <TextView
-        android:id="@+id/detailsBookCheckoutBy"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/detailsBookPublisher"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="@android:style/TextAppearance.Material.Small"
+                android:textSize="@dimen/detail_other_font_size"
+                tools:targetApi="lollipop" />
 
-    <TextView
-        android:id="@+id/detailsBookCheckoutDate"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/detailsBookCategories"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="@android:style/TextAppearance.Material.Small"
+                android:textSize="@dimen/detail_other_font_size"
+                tools:targetApi="lollipop" />
 
+            <TextView
+                android:id="@+id/checkout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:paddingRight="64dp"
+                android:text="@string/checkedout"
+                android:textAlignment="gravity"
+                android:textAppearance="@android:style/TextAppearance.Material.Medium"
+                android:textSize="@dimen/detail_checkout_font_size"
+                android:visibility="invisible"
+                tools:targetApi="lollipop" />
 
-</LinearLayout>
+            <TextView
+                android:id="@+id/detailsBookCheckoutBy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:paddingRight="64dp"
+                android:textAlignment="gravity"
+                android:textAppearance="@android:style/TextAppearance.Material.Small"
+                android:textSize="@dimen/detail_checkout_font_size"
+                tools:targetApi="lollipop" />
+
+            <TextView
+                android:id="@+id/detailsBookCheckoutDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:paddingRight="64dp"
+                android:textAlignment="gravity"
+                android:textAppearance="@android:style/TextAppearance.Material.Small"
+                android:textSize="@dimen/detail_checkout_font_size"
+                tools:targetApi="lollipop" />
+        </LinearLayout>
+    </ScrollView>
+</android.support.v7.widget.CardView>

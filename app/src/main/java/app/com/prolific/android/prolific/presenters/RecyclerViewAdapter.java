@@ -2,6 +2,8 @@ package app.com.prolific.android.prolific.presenters;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.util.Pair;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -22,9 +24,11 @@ import io.realm.RealmResults;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
     RealmResults<RealmBook> bookArrayList;
+    Activity mActivity;
 
-    public RecyclerViewAdapter(RealmResults<RealmBook> bookArrayList) {
+    public RecyclerViewAdapter(RealmResults<RealmBook> bookArrayList, Activity activity) {
         this.bookArrayList = bookArrayList;
+        this.mActivity = activity;
     }
 
     @Override
@@ -35,7 +39,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, final int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         holder.bookTitle.setText(bookArrayList.get(position).getTitle());
         holder.bookAuthor.setText(bookArrayList.get(position).getAuthor());
         holder.bookCardView.setOnClickListener(new View.OnClickListener() {
@@ -43,7 +47,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), DetailsActivity.class);
                 intent.putExtra(view.getContext().getResources().getString(R.string.intent_id), bookArrayList.get(position).getId());
-                view.getContext().startActivity(intent);
+                Pair<View, String> p1 = Pair.create(view, "cardview");
+                Pair<View, String> p2 = Pair.create((View) holder.bookTitle, "title");
+                Pair<View, String> p3 = Pair.create((View) holder.bookAuthor, "author");
+                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, p1, p2, p3);
+                view.getContext().startActivity(intent, options.toBundle());
             }
         });
         holder.bookCardView.setOnLongClickListener(new View.OnLongClickListener() {

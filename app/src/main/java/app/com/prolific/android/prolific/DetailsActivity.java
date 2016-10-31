@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -28,12 +29,15 @@ public class DetailsActivity extends AppCompatActivity {
     TextView mPublisher;
     @BindView(R.id.detailsBookCategories)
     TextView mCategories;
+    @BindView(R.id.checkout)
+    TextView mCheckout;
     @BindView(R.id.detailsBookCheckoutBy)
     TextView mCheckoutBy;
     @BindView(R.id.detailsBookCheckoutDate)
     TextView mCheckoutDate;
     @BindView(R.id.fab)
     FloatingActionButton fab;
+    android.support.v7.widget.ShareActionProvider mShareActionProvider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +48,7 @@ public class DetailsActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+
         DetailsActivitySetup.setDetailsPage(this, getIntent().getIntExtra(getResources().getString(R.string.intent_id), 0), mTitle, mAuthor, mPublisher, mCategories, mCheckoutBy, mCheckoutDate);
 
         fab.setOnClickListener(new View.OnClickListener() {
@@ -52,6 +57,10 @@ public class DetailsActivity extends AppCompatActivity {
                 DialogCreator.createCheckoutDialog((Activity) view.getContext(), getIntent().getIntExtra(getResources().getString(R.string.intent_id), 0)).show();
             }
         });
+
+        if (!mCheckoutBy.getText().toString().equals("")) {
+            mCheckout.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -67,6 +76,8 @@ public class DetailsActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_detail, menu);
+        MenuItem item = menu.findItem(R.id.action_share);
+        mShareActionProvider = (android.support.v7.widget.ShareActionProvider) MenuItemCompat.getActionProvider(item);
         return true;
     }
 
@@ -76,30 +87,35 @@ public class DetailsActivity extends AppCompatActivity {
         if (isNetworkConnected()) {
             switch (id) {
                 case R.id.action_share:
-                    Intent shareIntent = new Intent(Intent.ACTION_SEND);
-                    shareIntent.setType("text/plain");
-                    StringBuilder sb = new StringBuilder("Checkout this book!\n");
-                    sb.append(mTitle.getText().toString()+"\n");
-                    sb.append("by "+mAuthor.getText().toString());
-                    shareIntent.putExtra(Intent.EXTRA_TEXT, sb.toString());
-                    startActivity(Intent.createChooser(shareIntent, "Checkout this book!"));
+                    setShareIntent(createShareIntent());
                     break;
                 case android.R.id.home:
-                    finish();
+                    onBackPressed();
                     break;
             }
         }
         return super.onOptionsItemSelected(item);
     }
 
+    private void setShareIntent(Intent shareIntent) {
+        if (mShareActionProvider != null) {
+            mShareActionProvider.setShareIntent(shareIntent);
+        }
+    }
+
+    private Intent createShareIntent() {
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.setType("text/plain");
+        StringBuilder sb = new StringBuilder("Checkout this book:\n");
+        sb.append(mTitle.getText().toString() + "\n");
+        sb.append("by " + mAuthor.getText().toString());
+        shareIntent.putExtra(Intent.EXTRA_TEXT, sb.toString());
+        startActivity(Intent.createChooser(shareIntent, "Share this book!"));
+        return shareIntent;
+    }
+
     private boolean isNetworkConnected() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         return cm.getActiveNetworkInfo() != null;
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        finish();
     }
 }

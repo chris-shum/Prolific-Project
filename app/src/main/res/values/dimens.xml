@@ -3,4 +3,21 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+
+    <!--elevations-->
+    <dimen name="fab_default_elevation">6dp</dimen>
+    <dimen name="app_bar_elevation">4dp</dimen>
+
+    <!--text sizes-->
+    <dimen name="card_title_font_size">24dp</dimen>
+    <dimen name="card_author_font_size">16dp</dimen>
+    <dimen name="detail_title_font_size">45dp</dimen>
+    <dimen name="detail_author_font_size">34dp</dimen>
+    <dimen name="detail_other_font_size">24dp</dimen>
+    <dimen name="detail_checkout_font_size">20dp</dimen>
+
+    <!--misc-->
+    <dimen name="dialog_padding">10dp</dimen>
+
+
 </resources>

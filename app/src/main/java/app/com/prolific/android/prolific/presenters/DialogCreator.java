@@ -11,6 +11,7 @@ import android.widget.EditText;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.TimeZone;
 
 import app.com.prolific.android.prolific.R;
 import app.com.prolific.android.prolific.models.Book;
@@ -38,6 +39,7 @@ public class DialogCreator extends DialogFragment {
                             book.setLastCheckedOutBy(editText.getText().toString());
                             Calendar cal = Calendar.getInstance();
                             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss zzz");
+                            sdf.setTimeZone(TimeZone.getTimeZone("EST"));
                             String timeNow = sdf.format(cal.getTime());
                             book.setLastCheckedOut(timeNow);
                             PresentProlificLibrary.checkoutBook(activity, book, ID);

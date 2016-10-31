@@ -1,5 +1,6 @@
 package app.com.prolific.android.prolific;
 
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -39,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
         mLinearLayoutManager = new LinearLayoutManager(this);
         mBookDisplayRecyclerView.setLayoutManager(mLinearLayoutManager);
-        mRecyclerViewAdapter = new RecyclerViewAdapter(PresentRealm.getRealmLibrary(this));
+        mRecyclerViewAdapter = new RecyclerViewAdapter(PresentRealm.getRealmLibrary(this), this);
         mBookDisplayRecyclerView.setAdapter(mRecyclerViewAdapter);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,8 +96,13 @@ public class MainActivity extends AppCompatActivity {
 
     public void goToAddActivity() {
         Intent intent = new Intent(MainActivity.this, AddActivity.class);
-        startActivity(intent);
+        Bundle bundle = ActivityOptions.makeSceneTransitionAnimation(this, android.util.Pair.create((View) fab, "fab")).toBundle();
+        startActivity(intent, bundle);
     }
     // TODO: 10/30/16 ui/ux
+    // TODO: 10/30/16 text sizes
+    // TODO: 10/30/16 format cards 
+    // TODO: 10/30/16 format details page
+    // TODO: 10/30/16 format add page
     // TODO: 10/30/16 comment code
 }
