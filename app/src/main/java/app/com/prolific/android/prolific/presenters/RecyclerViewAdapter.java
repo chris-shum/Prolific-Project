@@ -26,10 +26,14 @@ import io.realm.RealmResults;
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
     RealmResults<RealmBook> bookArrayList;
     Activity mActivity;
+    View mFab;
+    boolean mOnline;
 
-    public RecyclerViewAdapter(RealmResults<RealmBook> bookArrayList, Activity activity) {
+    public RecyclerViewAdapter(RealmResults<RealmBook> bookArrayList, Activity activity, final View fab, boolean online) {
         this.bookArrayList = bookArrayList;
         this.mActivity = activity;
+        this. mFab = fab;
+        this. mOnline = online;
     }
 
     @Override
@@ -52,13 +56,15 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 Pair<View, String> p1 = Pair.create(view, "cardview");
                 Pair<View, String> p2 = Pair.create((View) holder.bookTitle, "title");
                 Pair<View, String> p3 = Pair.create((View) holder.bookAuthor, "author");
-                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, p1, p2, p3);
+                Pair<View, String> p4 = Pair.create(mFab, "fab");
+                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, p1, p2, p3, p4);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                     view.getContext().startActivity(intent, options.toBundle());
                 }
             }
         });
 //        long click to delete
+        if(mOnline){
         holder.bookCardView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
@@ -69,7 +75,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                         bookArrayList.size()).show();
                 return true;
             }
-        });
+        });}
     }
 
     @Override

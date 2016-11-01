@@ -113,6 +113,7 @@ public class DialogCreator extends DialogFragment {
                             recyclerViewAdapter.notifyItemRemoved(position);
                             recyclerViewAdapter.notifyItemRangeChanged(position, size - 1);
                         }
+
                     }
                 })
                 .setNegativeButton(getStringResources(activity, R.string.no), new DialogInterface.OnClickListener() {

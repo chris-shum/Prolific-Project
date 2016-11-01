@@ -1,7 +1,7 @@
 <resources>
-    <string name="app_name">Prolific</string>
-    <string name="title_activity_details">DetailsActivity</string>
-    <string name="title_activity_add">AddActivity</string>
+    <string name="app_name">Prolific Library</string>
+    <string name="title_activity_details">Book Details</string>
+    <string name="title_activity_add">Add Book</string>
 
     <!--menu Strings-->
     <string name="action_add">Add</string>

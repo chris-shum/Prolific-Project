@@ -11,19 +11,20 @@
     <!--text sizes-->
     <dimen name="card_title_font_size">24dp</dimen>
     <dimen name="card_author_font_size">16dp</dimen>
-    <dimen name="detail_title_font_size">45dp</dimen>
-    <dimen name="detail_author_font_size">34dp</dimen>
-    <dimen name="detail_other_font_size">24dp</dimen>
-    <dimen name="detail_checkout_font_size">20dp</dimen>
+    <dimen name="detail_title_font_size">34dp</dimen>
+    <dimen name="detail_author_font_size">24dp</dimen>
+    <dimen name="detail_other_font_size">20dp</dimen>
+    <dimen name="detail_checkout_font_size">16dp</dimen>
 
     <!--misc-->
     <dimen name="dialog_padding">10dp</dimen>
+    <dimen name="inner_fab_margin">32dp</dimen>
+    <dimen name="border_margin">3dp</dimen>
+
 
     <!--content_details-->
     <dimen name="bottom_padding">32dp</dimen>
-    <dimen name="right_padding">64dp</dimen>
-
-
+    <dimen name="right_padding">72dp</dimen>
 
 
 </resources>

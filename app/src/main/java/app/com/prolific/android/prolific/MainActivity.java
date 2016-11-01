@@ -42,15 +42,15 @@ public class MainActivity extends AppCompatActivity {
 
         mLinearLayoutManager = new LinearLayoutManager(this);
         mBookDisplayRecyclerView.setLayoutManager(mLinearLayoutManager);
-        mRecyclerViewAdapter = new RecyclerViewAdapter(PresentRealm.getRealmLibrary(this), this);
-        mBookDisplayRecyclerView.setAdapter(mRecyclerViewAdapter);
-
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 goToAddActivity();
             }
         });
+        if (!isNetworkConnected()) {
+            DialogCreator.createNoInternetDialog(this).show();
+        }
 
     }
 
@@ -59,12 +59,12 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         if (isNetworkConnected()) {
             PresentProlificLibrary.getProlificLibrary(this);
-            mRecyclerViewAdapter.notifyDataSetChanged();
             fab.setEnabled(true);
         } else {
-            DialogCreator.createNoInternetDialog(this).show();
             fab.setEnabled(false);
         }
+        mRecyclerViewAdapter = new RecyclerViewAdapter(PresentRealm.getRealmLibrary(this), this, fab, isNetworkConnected());
+        mBookDisplayRecyclerView.setAdapter(mRecyclerViewAdapter);
     }
 
     @Override
@@ -105,10 +105,4 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent, bundle);
         }
     }
-    // TODO: 10/30/16 ui/ux
-    // TODO: 10/30/16 text sizes
-    // TODO: 10/30/16 format cards 
-    // TODO: 10/30/16 format details page
-    // TODO: 10/30/16 format add page
-    // TODO: 10/30/16 comment code
 }

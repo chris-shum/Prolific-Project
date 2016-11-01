@@ -70,4 +70,13 @@ public class AddActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void onBackPressed() {
+        if(AddActivityCheck.checkEditTexts(mTitleInput, mAuthorInput, mPublisherInput, mCategoriesInput) > 0){
+        DialogCreator.createExitAddActivityDialog(this).show();}
+        else{
+        super.onBackPressed();}
+    }
+
 }

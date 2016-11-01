@@ -158,6 +158,7 @@ public class PresentProlificLibrary {
                         mSuccess = false;
                     }
                 });
+        
         return mSuccess;
     }
 
