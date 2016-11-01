@@ -32,8 +32,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public RecyclerViewAdapter(RealmResults<RealmBook> bookArrayList, Activity activity, final View fab, boolean online) {
         this.bookArrayList = bookArrayList;
         this.mActivity = activity;
-        this. mFab = fab;
-        this. mOnline = online;
+        this.mFab = fab;
+        this.mOnline = online;
     }
 
     @Override
@@ -47,10 +47,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         holder.bookTitle.setText(bookArrayList.get(position).getTitle());
         holder.bookAuthor.setText(bookArrayList.get(position).getAuthor());
-//        click for details, using shared element transitions
         holder.bookCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //shared element activity transition code
                 Intent intent = new Intent(view.getContext(), DetailsActivity.class);
                 intent.putExtra(view.getContext().getResources().getString(R.string.intent_id), bookArrayList.get(position).getId());
                 Pair<View, String> p1 = Pair.create(view, "cardview");
@@ -63,19 +63,20 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 }
             }
         });
-//        long click to delete
-        if(mOnline){
-        holder.bookCardView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                DialogCreator.createDeleteBookDialog((Activity) view.getContext(),
-                        bookArrayList.get(position).getId(),
-                        RecyclerViewAdapter.this,
-                        position,
-                        bookArrayList.size()).show();
-                return true;
-            }
-        });}
+        //long click to delete with internet check to disable function
+        if (mOnline) {
+            holder.bookCardView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    DialogCreator.createDeleteBookDialog((Activity) view.getContext(),
+                            bookArrayList.get(position).getId(),
+                            RecyclerViewAdapter.this,
+                            position,
+                            bookArrayList.size()).show();
+                    return true;
+                }
+            });
+        }
     }
 
     @Override

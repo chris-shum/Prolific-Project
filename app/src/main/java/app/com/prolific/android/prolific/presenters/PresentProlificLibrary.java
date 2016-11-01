@@ -18,6 +18,9 @@ import retrofit2.Response;
  * Created by ShowMe on 10/28/16.
  */
 
+//all methods for calls made to the flask API are made through here
+//each method updates the realm database
+
 public class PresentProlificLibrary {
     static boolean mSuccess = true;
 

@@ -48,15 +48,17 @@ public class DetailsActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        //sets all textviews
         DetailsActivitySetup.setDetailsPage(this, getIntent().getIntExtra(getResources().getString(R.string.intent_id), 0), mTitle, mAuthor, mPublisher, mCategories, mCheckoutBy, mCheckoutDate);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DialogCreator.createCheckoutDialog((Activity) view.getContext(), getIntent().getIntExtra(getResources().getString(R.string.intent_id), 0)).show();
+                DialogCreator.createCheckoutBookDialog((Activity) view.getContext(), getIntent().getIntExtra(getResources().getString(R.string.intent_id), 0)).show();
             }
         });
 
+        //"checked out by" text is made visible from invisible if there is checked out data
         if (!mCheckoutBy.getText().toString().replaceAll("\\s+", "").equals("")) {
             mCheckout.setVisibility(View.VISIBLE);
         }
@@ -65,6 +67,7 @@ public class DetailsActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        //checks for internet connection, disables functions if there is none
         if (isNetworkConnected()) {
             fab.setEnabled(true);
         } else {

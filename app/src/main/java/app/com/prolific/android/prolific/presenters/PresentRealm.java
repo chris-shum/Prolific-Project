@@ -17,6 +17,8 @@ import io.realm.RealmResults;
  * Created by ShowMe on 10/28/16.
  */
 
+//all methods of displaying realm data are found here
+
 public class PresentRealm {
 
     public static void convertProlificLibraryToRealmLibrary(List<Book> bookList, Activity activity) {

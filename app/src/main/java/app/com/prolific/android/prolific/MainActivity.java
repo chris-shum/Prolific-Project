@@ -57,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        //checks for internet connection, disables functions if there is none
         if (isNetworkConnected()) {
             PresentProlificLibrary.getProlificLibrary(this);
             fab.setEnabled(true);

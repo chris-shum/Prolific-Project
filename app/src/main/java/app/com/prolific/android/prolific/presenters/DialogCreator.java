@@ -16,10 +16,11 @@ import app.com.prolific.android.prolific.models.Book;
  * Created by ShowMe on 10/29/16.
  */
 
+//all dialogs used by activities are created through these methods here
 
 public class DialogCreator extends DialogFragment {
 
-    public static Dialog createCheckoutDialog(final Activity activity, final int ID) {
+    public static Dialog createCheckoutBookDialog(final Activity activity, final int ID) {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
         LayoutInflater inflater = activity.getLayoutInflater();
         final View dialogView = inflater.inflate(R.layout.checkout_dialog, null);
@@ -30,15 +31,10 @@ public class DialogCreator extends DialogFragment {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         if (editText.getText().toString().replaceAll("\\s+", "").equals("")) {
-                            createCheckoutDialog(activity, ID).show();
+                            createCheckoutBookDialog(activity, ID).show();
                         } else {
                             Book book = new Book();
                             book.setLastCheckedOutBy(editText.getText().toString());
-//                            Calendar cal = Calendar.getInstance();
-//                            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss zzz");
-//                            sdf.setTimeZone(TimeZone.getTimeZone("EST"));
-//                            String timeNow = sdf.format(cal.getTime());
-//                            book.setLastCheckedOut(timeNow);
                             PresentProlificLibrary.checkoutBook(activity, book, ID);
                             activity.finish();
                         }

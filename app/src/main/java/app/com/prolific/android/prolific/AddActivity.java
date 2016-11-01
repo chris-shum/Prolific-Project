@@ -24,6 +24,8 @@ public class AddActivity extends AppCompatActivity {
     EditText mPublisherInput;
     @BindView(R.id.bookCategoriesInput)
     EditText mCategoriesInput;
+    @BindView(R.id.fab)
+    FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +36,7 @@ public class AddActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        //performs edittext check before adding
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -56,9 +58,6 @@ public class AddActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (AddActivityCheck.checkEditTexts(mTitleInput, mAuthorInput, mPublisherInput, mCategoriesInput) > 0) {
-            DialogCreator.createExitAddActivityDialog(this).show();
-        } else {
             switch (id) {
                 case R.id.action_done:
                     onBackPressed();
@@ -67,16 +66,16 @@ public class AddActivity extends AppCompatActivity {
                     onBackPressed();
                     break;
             }
-        }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onBackPressed() {
-        if(AddActivityCheck.checkEditTexts(mTitleInput, mAuthorInput, mPublisherInput, mCategoriesInput) > 0){
-        DialogCreator.createExitAddActivityDialog(this).show();}
-        else{
-        super.onBackPressed();}
+        //performs edittext check before leaving
+        if (AddActivityCheck.checkEditTexts(mTitleInput, mAuthorInput, mPublisherInput, mCategoriesInput) > 0) {
+            DialogCreator.createExitAddActivityDialog(this).show();
+        } else {
+            super.onBackPressed();
+        }
     }
-
 }
