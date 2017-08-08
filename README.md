@@ -20,9 +20,7 @@ Prolific app built based on <a href="http://prolific-interview.herokuapp.com/581
 - Added <a href = "https://guides.codepath.com/android/Shared-Element-Activity-Transition">Shared Element Activity Transitions</a>.
   
 ### Screenshots:
- <img src="1.png" width="200">
- <img src="2.png" width="200">
- <img src="3.png" width="200">
+ <img src="1.png" width="200"><img src="2.png" width="200"> <img src="3.png" width="200">
  <img src="4.png" width="600">
 
  
