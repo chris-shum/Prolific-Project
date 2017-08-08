@@ -1,31 +1,31 @@
-#<img src="prolific.png" width="25">Prolific-Project
-##Prolific Library
-###Overview:
+# <img src="prolific.png" width="25">Prolific-Project
+## Prolific Library
+### Overview:
 
 Prolific app built based on <a href="http://prolific-interview.herokuapp.com/58124ddb99c50800092e1765/">this wireframe</a>.
 
-###Requirements:
+### Requirements:
 - Performs `GET`, `POST`, `PUT`, and `DELETE` via Retrofit.
 - Calls allow user to display, add, manipulate and delete book data on app.
 - Can share book data.
 - Supports Android 4+
 
-###Libraries used:
+### Libraries used:
 - <a href = "https://square.github.io/retrofit/">Retrofit</a>
 - <a href = "https://realm.io/">realm.io</a>
 - <a href = "http://jakewharton.github.io/butterknife/">Butter Knife</a>
 
-###Bonus:
+### Bonus:
 - <a href = "https://realm.io/">realm.io</a> mobile database allows for offline mode viewing of the library.
 - Added <a href = "https://guides.codepath.com/android/Shared-Element-Activity-Transition">Shared Element Activity Transitions</a>.
   
-###Screenshots:
+### Screenshots:
  <img src="1.png" width="200">
  <img src="2.png" width="200">
  <img src="3.png" width="200">
  <img src="4.png" width="600">
 
  
-###Video:
+### Video:
 <a href = "https://youtu.be/VIsf3mzV81c">YouTube</a>
 
